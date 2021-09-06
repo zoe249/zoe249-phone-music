@@ -30,7 +30,7 @@ const routes = [{
         component: Music
     },
     {
-        path: "video",
+        path: "/video",
         component: Video
     }
 ]
