@@ -152,7 +152,7 @@ li {
 .banner-item .banner-icon{
   height: 100%;
   width: 100%;
-  
+  border-radius: 15px;
   img{
     height: 100%;
     width: 100%;
@@ -164,8 +164,10 @@ li {
   color: #fff;
   display: flex;
   bottom: 10px;
-  left: 50px;
-  justify-content: center;
+  // left: 50px;
+  // justify-content: center;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .home-banners .banner-li li{
   border-bottom: rgb(119, 117, 117) solid 3px;
