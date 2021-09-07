@@ -9,7 +9,7 @@
       </div>
       <!-- 纯属摆设 -->
       <div class="main-searchiup">
-        <input type="text" placeholder="大家都在搜" @focus="searchT" />
+        <input type="text" :placeholder="SearchDefault.showKeyword" @focus="searchT" />
       </div>
       <!-- 占位 -->
       <div class="main-none"></div>
@@ -23,10 +23,16 @@
           <img src="@/assets/img/main/back.png" alt="" />
         </div>
         <div class="search-input">
-          <input type="text" v-model="inputValue" @focus="SarchFocus" />
+          <input
+            type="text"
+            autofocus="autofocus"
+            v-model="inputValue"
+            @focus="SarchFocus"
+          />
         </div>
       </div>
-      <!-- 热搜列表 -->
+      <div class="seachFot" v-show ="isseachFot">
+        <!-- 热搜列表 -->
       <div class="search-suggest" v-if="isSuggest">
         <div
           class="suggest-item"
@@ -44,28 +50,33 @@
       <div class="search-suggest" v-else>
         <div
           class="suggest-item"
-          v-for="(item, index) in serchHots"
+          v-for="(item, index) in suggestList"
           :key="index"
-          @click="serchClick(item.first)"
+          @click="serchClick(item.keyword)"
         >
           <div class="suggest-item-img">
             <img src="@/assets/img/main/search.png" alt="" />
           </div>
-          <div class="suggest-item-text">暂无</div>
+          <div class="suggest-item-text">{{ item.keyword }}</div>
         </div>
       </div>
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script>
-import { getSearchHot } from "@/network/Get/MainTop";
-import { getSuggest } from "@/network/Get/MainTop";
+import { getSearchHot,getSearchDefault,getSuggest } from "@/network/Get/MainTop";
 export default {
   data() {
     return {
       // 搜索框
       isTopSearch: true,
+      // 搜索建议
+      isseachFot:false,
+      // 默认搜索提示
+      SearchDefault:{},
       //   热搜列表
       serchHots: [],
       // 搜索讲义
@@ -77,44 +88,75 @@ export default {
     };
   },
   created() {
-    this.getSearchHot();
-    
+    this.getSearchDefault()
   },
   computed: {},
   watch: {
     inputValue() {
-        this.getSuggest(this.inputValue)
+      this.getSuggest(this.inputValue);
+      // this.SuggestShow()
+      console.log(this.inputValue);
     },
   },
   methods: {
+    // 判断热搜和搜索建议
+    SuggestShow() {
+      if (this.inputValue.length === 0) {
+        this.isSuggest = true;
+      } else {
+        this.isSuggest = false;
+      }
+    },
+    // 显示搜索
     searchT() {
       this.isTopSearch = false;
+      this.isseachFot = true
     },
+    // 关闭搜索
     searchF() {
       this.isTopSearch = true;
+      this.isseachFot = false
     },
 
     // 搜索框获得焦点
     SarchFocus() {
       this.isSuggest = true;
+      this.getSearchHot();
+    },
+    // 默认搜索提示
+    getSearchDefault(){
+      getSearchDefault().then(res=>{
+        console.log(res)
+        this.SearchDefault = res.data.data
+      })
     },
     // 热搜列表
     getSearchHot() {
       getSearchHot().then((res) => {
-        console.log(res);
         this.serchHots = res.data.result.hots;
         console.log(this.serchHots);
       });
     },
     // 搜索建议
     getSuggest(keywords) {
-      getSuggest(keywords).then((res) => {
-        console.log(res);
-        
-      });
+      this.isSuggest = false;
+      setTimeout(() => {
+        getSuggest(keywords).then((res) => {
+          if(res.data.result.allMatch){
+            this.suggestList = res.data.result.allMatch;
+          }else{
+            this.suggestList[0].keyword = '暂无内容'
+            console.log(this.suggestList)
+          }            
+        });
+      }, 500);
+
+      // this.isSuggest = true;
     },
     // 搜索
     serchClick(name) {
+      this.inputValue = name
+      this.isseachFot = false
       console.log(name);
     },
   },
@@ -123,6 +165,8 @@ export default {
 
 <style lang="less">
 .main-top {
+  z-index: 99;
+  
 }
 .serch-false {
   position: fixed;
@@ -133,6 +177,7 @@ export default {
   // background-color: aquamarine;
   display: flex;
   align-items: center;
+  box-shadow: 0px 1px 5px rgb(53, 53, 53);
 }
 // 侧边栏按钮
 .main-aside {
@@ -155,12 +200,14 @@ export default {
 .main-searchiup {
   flex: 9;
   text-align: center;
+  z-index: 99;
 }
 .main-searchiup input {
   border: none;
   border-radius: 15px;
   height: 30px;
   width: 230px;
+  // color: #fff;
 }
 .main-searchiup::before {
   content: "";
@@ -188,6 +235,7 @@ export default {
 
 // 真正的搜索框
 .serch-Main {
+  z-index: 99;
   position: absolute;
   height: 49px;
   left: 0;

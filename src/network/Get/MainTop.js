@@ -17,3 +17,10 @@ export function getSuggest(keywords) {
         }
     })
 }
+
+// 默认搜索
+export function getSearchDefault() {
+    return requestGet({
+        url: '/search/default'
+    })
+}

@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import TabBar from "@/components/comment/TabBar.vue";
-import TabBarItem from "@/components/comment/TabBarItem.vue";
+import TabBar from "@/components/comment/TabBar/TabBar.vue";
+import TabBarItem from "@/components/comment/TabBar/TabBarItem.vue";
 export default {
   components: {
     TabBar,
@@ -42,5 +42,7 @@ export default {
 </script>
 
 <style lang="less">
-
+.Main-Tab-Bar{
+    z-index: 99;
+}
 </style>
