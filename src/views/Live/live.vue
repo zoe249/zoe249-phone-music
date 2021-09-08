@@ -1,48 +1,30 @@
 <template>
-  <div class="wrapper" ref="wrapper">
-    <div class="content">
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-      <h1>你那天</h1>
-    </div>
+  <div class="wrapper">
+    <b-scroll-x class="content">
+      <h1>
+        你那天你那天你那天你那天你那天你那天你那天你那天你那天你那天你那天你那天你那天你那天
+      </h1>
+    </b-scroll-x>
   </div>
 </template>
 
 <script>
-import BScroll from "better-scroll";
+import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
 export default {
-  data() {
-    return {
-      scroll: null,
-    };
-  },
-  mounted() {
-      this.scroll = new BScroll(this.$refs.wrapper, {
-        click: true,
-      });
+  components: {
+    BScrollX,
   },
 };
 </script>
 
 <style lang="less" scoped>
-.wrapper{
-  
-  height: 150px;
-  width: 100%;
-  // background-color: chocolate;
+.wrapper {
+  white-space: nowrap;
+  width: 150px;
   overflow: hidden;
+  margin-top: 150px;
 }
-
+.content {
+  display: inline-block;
+}
 </style>

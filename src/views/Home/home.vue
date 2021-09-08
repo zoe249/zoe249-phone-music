@@ -2,116 +2,123 @@
   <div class="Home-Main wrapper">
     <b-scroll class="content">
       <!-- 轮播图 -->
-      <div class="home-banners">
-        <div class="banner-item" v-for="(item,index) in BannerList" :key="index">
-          <div v-show="bannerIndex === index" class="banner-icon"><img :src="item.pic" alt=""></div>
+      <home-banner :BannerList="BannerList" />
+
+      <!-- 圆形图标 -->
+      <div class="home-dragon-main">
+              <b-scroll-x class="scrollx-content">
+        <div class="home-dragon">
+          <!-- 内容 -->
+          <div class="dragon-item" v-for="(item, index) in Dragon" :key="index">
+            <div class="dragon-item-img">
+              <img :src="item.iconUrl" alt="" />
+            </div>
+            <div class="dragon-item-text">
+              {{ item.name }}
+            </div>
+            <!-- 颜色 -->
+            <div class="dragon-item-color"></div>
+          </div>
         </div>
-        <!-- 轮播图下标 -->
-        <div class="banner-li">
-          <li :class="{activeBanner:bannerIndex === index}" 
-          v-for="(item,index) in BannerList" 
-          :key="index"
-          @click="switchBanner(index)"></li>
-        </div>
+      </b-scroll-x>
       </div>
 
       <div class="baise">
-              <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
       </div>
     </b-scroll>
   </div>
 </template>
 
 <script>
+import HomeBanner from "./children/homeBanner.vue";
+// 引入纵向侧边栏
 import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
-import {getHomeBanners} from '@/network/Get/Home'
+// 横向侧边栏
+import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
+import { getHomeBanners, getHomeDragon } from "@/network/Get/Home";
 export default {
-  data () {
+  data() {
     return {
       // 轮播图列表
-      BannerList:[],
-      // 轮播图索引
-      bannerIndex:0,
-      
-    }
+      BannerList: [],
+      // 圆形图标列表
+      Dragon: [],
+    };
   },
-  created () {
-    this.getHomeBanners()
-    this.setIndexBanner()
+  created() {
+    this.getHomeBanners();
+    this.getHomeDragon();
   },
   methods: {
     // 轮播图数据
-    getHomeBanners(){
-      getHomeBanners().then(res=>{
-        console.log(res)
-        this.BannerList = res.data.banners
-      })
+    getHomeBanners() {
+      getHomeBanners().then((res) => {
+        // console.log(res)
+        this.BannerList = res.data.banners;
+      });
     },
-    // 定时器切换轮播图
-    setIndexBanner(){
-      setInterval(()=>{
-        this.bannerIndex++
-        if(this.bannerIndex === 12){
-          this.bannerIndex = 0
-        }
-      },2000)
+    // 圆形入口数据
+    getHomeDragon() {
+      getHomeDragon().then((res) => {
+        console.log(res);
+        this.Dragon = res.data.data;
+      });
     },
-    // 点击下标切换图片
-    switchBanner(index){
-      this.bannerIndex = index
-    }
   },
   components: {
     BScroll,
+    HomeBanner,
+    BScrollX,
   },
 };
 </script>
@@ -139,46 +146,56 @@ li {
   overflow: hidden;
 }
 
-
-// 轮播图
-.home-banners{
-  position: relative;
-  margin-top: 20px;
-  height: 135px;
+// 圆形图标
+.home-dragon-main{
+  white-space: nowrap;
+    height: 95px;
   width: 100%;
   overflow: hidden;
-  border-radius: 15px;
 }
-.banner-item .banner-icon{
-  height: 100%;
+.scrollx-content{
+  margin-top: 20px;
+  display: inline-block;
+  height: 70px;
   width: 100%;
-  border-radius: 15px;
-  img{
-    height: 100%;
-    width: 100%;
+  overflow: hidden;
+}
+.home-dragon {
+  width: 100%;
+  // margin-top: 20px;
+  display: flex;
+  overflow: hidden;
+  text-align: center;
+}
+.dragon-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  // color: red;
+  text-align: center;
+}
+.dragon-item .dragon-item-img {
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  img {
+    height: 45px;
+    width: 45px;
   }
 }
-
-.home-banners .banner-li{
-  position: absolute;
+.dragon-item .dragon-item-text {
+  margin-top: 8px;
   color: #fff;
-  display: flex;
-  bottom: 10px;
-  // left: 50px;
-  // justify-content: center;
-  left: 50%;
-  transform: translateX(-50%);
+  font-size: 8px;
 }
-.home-banners .banner-li li{
-  border-bottom: rgb(119, 117, 117) solid 3px;
-  list-style-type: none;
-  width: 15px;
-  margin: 2px;
-}
-.home-banners .banner-li  .activeBanner{
-  border-bottom: #fff solid 3px;
-  list-style-type: none;
-  width: 15px;
-  margin: 2px;
+// 颜色
+.dragon-item .dragon-item-color {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  background-color: rgba(255, 0, 0, 0.3);
+  border-radius: 50%;
 }
 </style>

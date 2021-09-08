@@ -1,0 +1,99 @@
+<template>
+  <div class="home-banners">
+    <div class="banner-item" v-for="(item, index) in BannerList" :key="index">
+      <div v-show="bannerIndex === index" class="banner-icon">
+        <img :src="item.pic" alt="" />
+      </div>
+    </div>
+    <!-- 轮播图下标 -->
+    <div class="banner-li">
+      <li
+        :class="{ activeBanner: bannerIndex === index }"
+        v-for="(item, index) in BannerList"
+        :key="index"
+        @click="switchBanner(index)"
+      ></li>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    BannerList: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
+  data() {
+    return {
+      // 轮播图索引
+      bannerIndex: 0,
+    };
+  },
+  created () {
+    this.setIndexBanner()
+  },
+  methods: {
+    // 定时器切换轮播图
+    setIndexBanner() {
+      setInterval(() => {
+        this.bannerIndex++;
+        if (this.bannerIndex === 12) {
+          this.bannerIndex = 0;
+        }
+      }, 2000);
+    },
+    // 点击下标切换图片
+    switchBanner(index) {
+      this.bannerIndex = index;
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+// 轮播图
+.home-banners {
+  position: relative;
+  margin-top: 20px;
+  height: 135px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 15px;
+}
+.banner-item .banner-icon {
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.home-banners .banner-li {
+  position: absolute;
+  color: #fff;
+  display: flex;
+  bottom: 10px;
+  // left: 50px;
+  // justify-content: center;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.home-banners .banner-li li {
+  border-bottom: rgb(119, 117, 117) solid 3px;
+  list-style-type: none;
+  width: 15px;
+  margin: 2px;
+}
+.home-banners .banner-li .activeBanner {
+  border-bottom: #fff solid 3px;
+  list-style-type: none;
+  width: 15px;
+  margin: 2px;
+}
+</style>

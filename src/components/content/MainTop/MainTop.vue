@@ -9,7 +9,7 @@
       </div>
       <!-- 纯属摆设 -->
       <div class="main-searchiup">
-        <input type="text" :placeholder="SearchDefault.showKeyword" @focus="searchT" />
+        <input type="text" :value="SearchDefault.showKeyword" @focus="searchT" />
       </div>
       <!-- 占位 -->
       <div class="main-none"></div>
@@ -220,10 +220,10 @@ export default {
   margin-left: 10px;
 }
 .main-searchiup input {
-  padding-left: 28px;
+  padding-left: 30px;
   background-color: rgba(121, 120, 125, 0.5);
-  color: #fff;
-  font-size: 15px;
+  color: #ccc;
+  font-size: 13px;
   line-height: 25px;
 }
 
