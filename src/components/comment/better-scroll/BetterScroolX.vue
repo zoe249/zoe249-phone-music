@@ -14,30 +14,36 @@ export default {
       scroll: null,
     };
   },
+  watch: {
+    'scroll'(){
+      this.onscroll()
+    }
+  },
   mounted() {
-    this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.wrapperx, {
-        click: true,
-        scrollX: true,
-        probeType: 3,
-        
+    this.onscroll()
+    console.log(this.$refs.wrapperx.scrollWidth + "fu");
+    console.log(this.$refs.wrapperx.clientWidth + "zi");
+  },
+  methods: {
+    onscroll() {
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.wrapperx, {
+            click: false,
+            scrollX: true,
+            probeType: 3,
+          });
+        }else{
+          this.scroll.refresh()
+        }
       });
-    //   this.bs.on('scrollStart', () => {
-    //       console.log('scrollStart-')
-    //     })
-    //     this.bs.on('scroll', ({ y }) => {
-    //       console.log('scrolling-')
-    //     })
-    //     this.bs.on('scrollEnd', () => {
-    //       console.log('scrollingEnd')
-    //     })
-    });
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.content{
+.content {
   display: inline-block;
 }
 </style>

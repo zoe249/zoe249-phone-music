@@ -5,24 +5,14 @@
       <home-banner :BannerList="BannerList" />
 
       <!-- 圆形图标 -->
-      <div class="home-dragon-main">
-              <b-scroll-x class="scrollx-content">
-        <div class="home-dragon">
-          <!-- 内容 -->
-          <div class="dragon-item" v-for="(item, index) in Dragon" :key="index">
-            <div class="dragon-item-img">
-              <img :src="item.iconUrl" alt="" />
-            </div>
-            <div class="dragon-item-text">
-              {{ item.name }}
-            </div>
-            <!-- 颜色 -->
-            <div class="dragon-item-color"></div>
-          </div>
-        </div>
-      </b-scroll-x>
-      </div>
+      <home-dragon :Dragon="Dragon" />
 
+      <!-- 推荐歌单 -->
+      <home-person :Person="Person"/>
+      
+
+      <!-- 占位 -->
+      <div class="aaaa">1231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111</div>
       <div class="baise">
         <li></li>
         <li></li>
@@ -80,12 +70,17 @@
 </template>
 
 <script>
+import HomeDragon from "./children/homeDragon.vue";
 import HomeBanner from "./children/homeBanner.vue";
+import HomePerson from "./children/homePerson.vue"
 // 引入纵向侧边栏
 import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
-// 横向侧边栏
 import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
-import { getHomeBanners, getHomeDragon } from "@/network/Get/Home";
+import {
+  getHomeBanners,
+  getHomeDragon,
+  getHomePerson,
+} from "@/network/Get/Home";
 export default {
   data() {
     return {
@@ -93,11 +88,14 @@ export default {
       BannerList: [],
       // 圆形图标列表
       Dragon: [],
+      // 推荐歌单列表
+      Person: [],
     };
   },
   created() {
     this.getHomeBanners();
     this.getHomeDragon();
+    this.getHomePerson();
   },
   methods: {
     // 轮播图数据
@@ -114,11 +112,24 @@ export default {
         this.Dragon = res.data.data;
       });
     },
+    // 获取推荐歌单
+    getHomePerson() {
+      getHomePerson().then((res) => {
+        console.log(res);
+        this.Person = res.data.result;
+        console.log(this.Person);
+      });
+    },
+    clickList(id){
+      console.log(id)
+    }
   },
   components: {
     BScroll,
-    HomeBanner,
     BScrollX,
+    HomeBanner,
+    HomeDragon,
+    HomePerson
   },
 };
 </script>
@@ -126,6 +137,7 @@ export default {
 <style lang="less" scoped>
 .Home-Main {
   z-index: 1;
+  
 }
 .wrapper {
   height: calc(100vh - 45px);
@@ -146,56 +158,55 @@ li {
   overflow: hidden;
 }
 
-// 圆形图标
-.home-dragon-main{
-  white-space: nowrap;
-    height: 95px;
-  width: 100%;
-  overflow: hidden;
+// 推荐歌单
+h3{
+  color: #fff;
+  margin-left: 2px;
 }
-.scrollx-content{
+.home-person-main {
+  padding-top: 10px;
+  // background-color: #00000090;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 200px;
   margin-top: 20px;
-  display: inline-block;
-  height: 70px;
-  width: 100%;
-  overflow: hidden;
+  border-radius: 15px;
 }
-.home-dragon {
-  width: 100%;
-  // margin-top: 20px;
+.person-scroll-main {
+  // white-space: nowrap;
+}
+.person-content {
+  margin-top: 15px;
+}
+.person-content .home-person {
   display: flex;
-  overflow: hidden;
-  text-align: center;
 }
-.dragon-item {
-  position: relative;
+.person-content .home-person .person-item{
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
-  // color: red;
-  text-align: center;
+  height: 150px;
+  width: 125px;
+  // margin-right: ;
 }
-.dragon-item .dragon-item-img {
-  height: 50px;
-  width: 50px;
-  text-align: center;
+.person-item  .person-item-img{
   img {
-    height: 45px;
-    width: 45px;
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
+    display: inline-block;
+    word-wrap: break-word;
   }
 }
-.dragon-item .dragon-item-text {
-  margin-top: 8px;
+.home-person .person-item  .person-item-text{
+  // height: 35px;
+  width: 110px;
   color: #fff;
-  font-size: 8px;
-}
-// 颜色
-.dragon-item .dragon-item-color {
-  position: absolute;
-  height: 50px;
-  width: 50px;
+  font-size: 12px;
+  line-height: 15px;
   overflow: hidden;
-  background-color: rgba(255, 0, 0, 0.3);
-  border-radius: 50%;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
 }
 </style>

@@ -24,3 +24,11 @@ export function getHomePerson() {
         }
     })
 }
+
+// 推荐新音乐
+export function getHomeNewsong() {
+    return requestGet({
+        url: "personalized/newsong",
+        limit: 9
+    })
+}

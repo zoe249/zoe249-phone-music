@@ -13,5 +13,10 @@ new Vue({
 }).$mount('#app')
 
 
-// 引入全局样式
+// 图片懒加载
+import Vuelazyload from 'vue-lazyload'
+Vue.use(Vuelazyload, {
+        loading: require('./assets/img/main/lazyload.gif')
+    })
+    // 引入全局样式
 require('@/assets/css/base.css')
