@@ -9,61 +9,13 @@
 
       <!-- 推荐歌单 -->
       <home-person :Person="Person"/>
-      
+
+      <!-- 推荐音乐 -->
+      <home-newsong :Newsong="Newsong"/>
 
       <!-- 占位 -->
-      <div class="aaaa">1231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111123111111111111111111111111111231111111111111111111111111112311111111111111111111111111</div>
       <div class="baise">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+
       </div>
     </b-scroll>
   </div>
@@ -72,7 +24,8 @@
 <script>
 import HomeDragon from "./children/homeDragon.vue";
 import HomeBanner from "./children/homeBanner.vue";
-import HomePerson from "./children/homePerson.vue"
+import HomePerson from "./children/homePerson.vue";
+import HomeNewsong from "./children/homeNewsong.vue"
 // 引入纵向侧边栏
 import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
 import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
@@ -80,6 +33,7 @@ import {
   getHomeBanners,
   getHomeDragon,
   getHomePerson,
+  getHomeNewsong,
 } from "@/network/Get/Home";
 export default {
   data() {
@@ -90,46 +44,55 @@ export default {
       Dragon: [],
       // 推荐歌单列表
       Person: [],
+      // 推荐音乐列表
+      Newsong:[],
+      NewsongBg:false
     };
   },
   created() {
     this.getHomeBanners();
     this.getHomeDragon();
     this.getHomePerson();
+    this.getHomeNewsong();
   },
   methods: {
     // 轮播图数据
     getHomeBanners() {
       getHomeBanners().then((res) => {
-        // console.log(res)
         this.BannerList = res.data.banners;
       });
     },
     // 圆形入口数据
     getHomeDragon() {
       getHomeDragon().then((res) => {
-        console.log(res);
         this.Dragon = res.data.data;
       });
     },
     // 获取推荐歌单
     getHomePerson() {
       getHomePerson().then((res) => {
-        console.log(res);
         this.Person = res.data.result;
-        console.log(this.Person);
       });
+    },
+    // 获取推荐音乐
+    getHomeNewsong(){
+      getHomeNewsong().then(res=>{
+        console.log(res)
+        this.Newsong = res.data.result
+      })
     },
     clickList(id){
       console.log(id)
-    }
+    },
+    
   },
   components: {
     BScroll,
     BScrollX,
     HomeBanner,
     HomeDragon,
-    HomePerson
+    HomePerson,
+    HomeNewsong
   },
 };
 </script>
@@ -157,56 +120,40 @@ li {
   // position: absolute;
   overflow: hidden;
 }
+.baise{
+  height: 300px;
+}
 
-// 推荐歌单
-h3{
-  color: #fff;
-  margin-left: 2px;
-}
-.home-person-main {
-  padding-top: 10px;
-  // background-color: #00000090;
-  background-color: rgba(0, 0, 0, 0.2);
-  height: 200px;
-  margin-top: 20px;
-  border-radius: 15px;
-}
-.person-scroll-main {
-  // white-space: nowrap;
-}
-.person-content {
-  margin-top: 15px;
-}
-.person-content .home-person {
-  display: flex;
-}
-.person-content .home-person .person-item{
-  display: flex;
-  flex-direction: column;
-  height: 150px;
-  width: 125px;
-  // margin-right: ;
-}
-.person-item  .person-item-img{
-  img {
-    width: 110px;
-    height: 110px;
-    border-radius: 10px;
-    display: inline-block;
-    word-wrap: break-word;
-  }
-}
-.home-person .person-item  .person-item-text{
-  // height: 35px;
-  width: 110px;
-  color: #fff;
-  font-size: 12px;
-  line-height: 15px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 
-}
+
+// .home-newsong-main{
+//   margin-top: 20px;
+//   padding-top: 10px;
+//   height: 250px;
+//   width: 100%;
+//   background-color: rgba(0, 0, 0, 0.2);
+//   border-radius: 15px;
+// }
+// h3{
+//   color: #fff;
+//   margin-left: 2px;
+// }
+// .newsong-scroll-main{
+//   width: 100%;
+// }
+// .newsong-content{
+//   margin-top: 10px;
+//   // width: 100%;
+// }
+// .home-newsong{
+//   display: flex;
+//   flex-direction: column;
+//   flex-wrap: wrap;
+//   height: 200px;
+
+// }
+// .home-newsong .newsong-item{
+//   width: 94vw;
+//   height: 60px;
+// }
 </style>

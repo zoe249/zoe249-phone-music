@@ -14,15 +14,13 @@ export default {
       scroll: null,
     };
   },
-  watch: {
-    'scroll'(){
-      this.onscroll()
-    }
-  },
+  watch: {},
   mounted() {
-    this.onscroll()
-    console.log(this.$refs.wrapperx.scrollWidth + "fu");
-    console.log(this.$refs.wrapperx.clientWidth + "zi");
+    this.onscroll();
+    this.refresh();
+    // console.log(this.scrollWidth())
+    // console.log(this.$refs.wrapperx.scrollWidth + "fu");
+    // console.log(this.$refs.wrapperx.clientWidth + "zi");
   },
   methods: {
     onscroll() {
@@ -32,11 +30,21 @@ export default {
             click: false,
             scrollX: true,
             probeType: 3,
+            
           });
-        }else{
-          this.scroll.refresh()
+          this.refresh();
+        } else {
+          this.refresh();
         }
       });
+    },
+    refresh() {
+      this.scroll && this.scroll.refresh();
+      
+    },
+    scrollWidth() {
+      console.log(this.$refs.wrapperx.scrollWidth);
+      return this.$refs.wrapperx.scrollWidth;
     },
   },
 };

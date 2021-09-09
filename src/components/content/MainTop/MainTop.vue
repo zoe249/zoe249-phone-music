@@ -3,7 +3,7 @@
     <div class="serch-false" v-if="isTopSearch">
       <!-- 侧边栏 -->
       <div class="main-aside">
-        <div class="aside-show">
+        <div class="aside-show" @click="asideShow">
           <img src="@/assets/img/aside/aside.png" alt="" />
         </div>
       </div>
@@ -63,10 +63,14 @@
       </div>
       
     </div>
+
+    <!-- 侧边栏 -->
+    <main-aside ref="mainaside"></main-aside>
   </div>
 </template>
 
 <script>
+import MainAside from '../MainAside/MainAside.vue'
 import { getSearchHot,getSearchDefault,getSuggest } from "@/network/Get/MainTop";
 export default {
   data() {
@@ -126,7 +130,6 @@ export default {
     // 默认搜索提示
     getSearchDefault(){
       getSearchDefault().then(res=>{
-        console.log(res)
         this.SearchDefault = res.data.data
       })
     },
@@ -159,7 +162,14 @@ export default {
       this.isseachFot = false
       console.log(name);
     },
+    // 显示侧边栏
+    asideShow(){
+      this.$refs.mainaside.asideShow()
+    }
   },
+  components:{
+    MainAside
+  }
 };
 </script>
 

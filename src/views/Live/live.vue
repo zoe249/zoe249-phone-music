@@ -22,7 +22,7 @@ export default {
   white-space: nowrap;
   width: 150px;
   overflow: hidden;
-  margin-top: 150px;
+
 }
 .content {
   display: inline-block;

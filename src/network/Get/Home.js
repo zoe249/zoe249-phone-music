@@ -1,4 +1,5 @@
 import { requestGet } from "../requestGet";
+import { requestPost } from '../requestPost'
 
 // 请求轮播图数据
 export function getHomeBanners() {
@@ -25,10 +26,10 @@ export function getHomePerson() {
     })
 }
 
-// 推荐新音乐
+// 推荐新音乐(未登录)
 export function getHomeNewsong() {
     return requestGet({
-        url: "personalized/newsong",
-        limit: 9
+        url: "personalized/newsong?limit=9",
+
     })
 }

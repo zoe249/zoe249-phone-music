@@ -4,7 +4,7 @@
       <h3>推荐歌单</h3>
     </div>
     <div class="person-scroll-main">
-      <b-scroll-x class="person-content">
+      <b-scroll-x class="person-content" ref="scroll">
         <div class="home-person">
           <div
             class="person-item"
@@ -34,10 +34,19 @@ export default {
       },
     },
   },
+  mounted(){
+    this.personScroll()
+  },
   methods: {
     musicListId(id) {
       console.log(id)
     },
+    // 解决滑动问题，手动刷新
+    personScroll(){
+      setTimeout(()=>{
+        this.$refs.scroll.refresh()
+      },500)
+    }
   },
   components: {
     BScrollX,
@@ -80,8 +89,8 @@ h3 {
     width: 110px;
     height: 110px;
     border-radius: 10px;
-    display: inline-block;
-    word-wrap: break-word;
+    // display: inline-block;
+    // word-wrap: break-word;
   }
 }
 .home-person .person-item .person-item-text {

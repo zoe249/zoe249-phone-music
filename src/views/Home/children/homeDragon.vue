@@ -1,7 +1,7 @@
 <template>
   <div class="home-dragon-main">
-    <b-scroll-x class="dragon-content">
-      <div class="home-dragon">
+    <b-scroll-x class="dragon-content" ref="scroll">
+      <div class="home-dragon" ref="aaa">
         <!-- 内容 -->
         <div class="dragon-item" v-for="(item, index) in Dragon" :key="index">
           <div class="dragon-item-img">
@@ -28,6 +28,21 @@ export default {
         return [];
       },
     },
+    
+    
+  },
+  watch: {
+    Dragon(){
+      
+    }
+  },
+  mounted () {
+    setTimeout(()=>{
+      this.$refs.scroll.refresh()
+    },1000)
+  },
+  methods: {
+    
   },
   components: {
     BScrollX,

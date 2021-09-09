@@ -10,10 +10,15 @@ const Music = () =>
     import ('@/views/Music/music.vue')
 const Video = () =>
     import ('../views/Video/video.vue')
-
+const Login = () =>
+    import ('@/views/Login/login.vue')
 Vue.use(VueRouter)
 
 const routes = [{
+        path: "/login",
+        component: Login
+    },
+    {
         path: "/home",
         component: Home
     },
