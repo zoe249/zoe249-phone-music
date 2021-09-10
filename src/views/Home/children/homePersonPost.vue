@@ -68,9 +68,9 @@ h3 {
   margin-top: 20px;
   border-radius: 15px;
 }
-.person-scroll-main {
-  // white-space: nowrap;
-}
+// .person-scroll-main {
+//   // white-space: nowrap;
+// }
 .person-content {
   margin-top: 15px;
 }
