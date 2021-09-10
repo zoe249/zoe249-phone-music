@@ -25,18 +25,22 @@ const routes = [{
     {
         path: "/follow",
         component: Follow,
+        meta: { options: "login" }
     },
     {
         path: "/live",
-        component: Live
+        component: Live,
+        meta: { options: "login" }
     },
     {
         path: "/music",
-        component: Music
+        component: Music,
+        meta: { options: "login" }
     },
     {
         path: "/video",
-        component: Video
+        component: Video,
+        meta: { options: "login" }
     }
 ]
 
@@ -44,6 +48,17 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes
+})
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+    if (to.meta.options) {
+        const cookieStr = localStorage.getItem('cookie')
+        if (!cookieStr) return next("/login")
+        next()
+    } else {
+        return next()
+    }
 })
 
 export default router

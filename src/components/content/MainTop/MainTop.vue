@@ -286,7 +286,9 @@ export default {
 
 // 搜索建议
 .search-suggest {
-  margin: 0 10px;
+  // margin: 0 10px;
+  background-color: rgb(100, 98, 98);
+  backdrop-filter: blur(12px);
 }
 .search-suggest .suggest-item {
   display: flex;
@@ -297,6 +299,7 @@ export default {
 .search-suggest .suggest-item .suggest-item-img {
   height: 20px;
   width: 20px;
+  margin-left: 10px;
   img {
     height: 20px;
     width: 20px;

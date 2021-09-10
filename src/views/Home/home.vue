@@ -7,16 +7,20 @@
       <!-- 圆形图标 -->
       <home-dragon :Dragon="Dragon" />
 
-      <!-- 推荐歌单 -->
-      <home-person :Person="Person"/>
-
+      <!-- 登录后歌单 -->
+      <home-person-p v-if="HomePost" :PersonPost="PersonPost"/>
+      
       <!-- 推荐音乐 -->
-      <home-newsong :Newsong="Newsong"/>
+      <home-newsong :Newsong="Newsong" />
+
+      <!-- 推荐视频 -->
+      <home-video-p v-if="HomePost" :VideoPost="VideoPost"/>
+
+      <!-- 推荐歌单 -->
+      <home-person :Person="Person" />
 
       <!-- 占位 -->
-      <div class="baise">
-
-      </div>
+      <div class="baise"></div>
     </b-scroll>
   </div>
 </template>
@@ -25,7 +29,9 @@
 import HomeDragon from "./children/homeDragon.vue";
 import HomeBanner from "./children/homeBanner.vue";
 import HomePerson from "./children/homePerson.vue";
-import HomeNewsong from "./children/homeNewsong.vue"
+import HomeNewsong from "./children/homeNewsong.vue";
+import HomePersonP from "./children/homePersonPost.vue"
+import HomeVideoP from  "./children/homeVideoPost.vue"
 // 引入纵向侧边栏
 import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
 import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
@@ -34,7 +40,12 @@ import {
   getHomeDragon,
   getHomePerson,
   getHomeNewsong,
+  // post请求(登录)
+  HomevideoPost,
+  HomePersonPost,
 } from "@/network/Get/Home";
+
+// import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -45,15 +56,26 @@ export default {
       // 推荐歌单列表
       Person: [],
       // 推荐音乐列表
-      Newsong:[],
-      NewsongBg:false
+      Newsong: [],
+      NewsongBg: false,
+      //是否显示登录后的数据
+      HomePost:false,
+      // 登录后的推荐列表
+      PersonPost:[],
+      // 视频列表
+      VideoPost:[]
     };
   },
+  computed: {
+    // saveCookie(){
+    //   return this.$store.getters.saveCookie
+    // }
+  },
   created() {
-    this.getHomeBanners();
-    this.getHomeDragon();
-    this.getHomePerson();
-    this.getHomeNewsong();
+    // 登录前
+    this.GetMethod();
+    // 登录后
+    this.PostMethod();
   },
   methods: {
     // 轮播图数据
@@ -75,16 +97,48 @@ export default {
       });
     },
     // 获取推荐音乐
-    getHomeNewsong(){
-      getHomeNewsong().then(res=>{
-        console.log(res)
-        this.Newsong = res.data.result
-      })
+    getHomeNewsong() {
+      getHomeNewsong().then((res) => {
+        this.Newsong = res.data.result;
+      });
     },
-    clickList(id){
-      console.log(id)
+    clickList(id) {
+      console.log(id);
     },
-    
+    saveCookie() {
+      return this.$store.getters.saveCookie;
+    },
+    // 登录前请求
+    GetMethod() {
+      this.getHomeBanners();
+      this.getHomeDragon();
+      this.getHomePerson();
+      this.getHomeNewsong();
+    },
+    // 登录后请求
+    PostMethod() {
+      if (
+        localStorage.getItem("cookie") &&
+        localStorage.getItem("cookie") !== null
+      ) {
+        this.HomevideoPost(this.saveCookie());
+        this.HomePersonPost(this.saveCookie());
+        this.HomePost = true
+      }
+    },
+    // 推荐视频
+    HomevideoPost(cookie) {
+      HomevideoPost(cookie).then((res) => {
+        console.log(res);
+        this.VideoPost = res.data.datas
+      });
+    },
+    // 每日推荐歌单
+    HomePersonPost(cookie) {
+      HomePersonPost(cookie).then((res) => {
+        this.PersonPost = res.data.recommend
+      });
+    },
   },
   components: {
     BScroll,
@@ -92,7 +146,9 @@ export default {
     HomeBanner,
     HomeDragon,
     HomePerson,
-    HomeNewsong
+    HomeNewsong,
+    HomePersonP,
+    HomeVideoP,
   },
 };
 </script>
@@ -100,7 +156,6 @@ export default {
 <style lang="less" scoped>
 .Home-Main {
   z-index: 1;
-  
 }
 .wrapper {
   height: calc(100vh - 45px);
@@ -120,40 +175,7 @@ li {
   // position: absolute;
   overflow: hidden;
 }
-.baise{
+.baise {
   height: 300px;
 }
-
-
-
-// .home-newsong-main{
-//   margin-top: 20px;
-//   padding-top: 10px;
-//   height: 250px;
-//   width: 100%;
-//   background-color: rgba(0, 0, 0, 0.2);
-//   border-radius: 15px;
-// }
-// h3{
-//   color: #fff;
-//   margin-left: 2px;
-// }
-// .newsong-scroll-main{
-//   width: 100%;
-// }
-// .newsong-content{
-//   margin-top: 10px;
-//   // width: 100%;
-// }
-// .home-newsong{
-//   display: flex;
-//   flex-direction: column;
-//   flex-wrap: wrap;
-//   height: 200px;
-
-// }
-// .home-newsong .newsong-item{
-//   width: 94vw;
-//   height: 60px;
-// }
 </style>

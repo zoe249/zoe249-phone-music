@@ -33,3 +33,23 @@ export function getHomeNewsong() {
 
     })
 }
+
+// 每日推荐歌单(登录) /recommend/resource
+export function HomePersonPost(cookie) {
+    return requestPost({
+        url: "/recommend/resource",
+        data: {
+            cookie: cookie
+        }
+    })
+}
+
+// 推荐视频(登录)
+export function HomevideoPost(cookie) {
+    return requestPost({
+        url: "/video/timeline/recommend",
+        data: {
+            cookie: cookie
+        }
+    })
+}

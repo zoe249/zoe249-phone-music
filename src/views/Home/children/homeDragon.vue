@@ -3,6 +3,8 @@
     <b-scroll-x class="dragon-content" ref="scroll">
       <div class="home-dragon" ref="aaa">
         <!-- 内容 -->
+        <!-- 当前日期 -->
+        <span class="home-dragon-day">{{day}}</span>
         <div class="dragon-item" v-for="(item, index) in Dragon" :key="index">
           <div class="dragon-item-img">
             <img :src="item.iconUrl" alt="" />
@@ -27,9 +29,12 @@ export default {
       default() {
         return [];
       },
-    },
-    
-    
+    },    
+  },
+  data () {
+    return {
+      day:null,  
+    }
   },
   watch: {
     Dragon(){
@@ -40,9 +45,13 @@ export default {
     setTimeout(()=>{
       this.$refs.scroll.refresh()
     },1000)
+    this.Todaydate()
   },
   methods: {
-    
+    Todaydate(){
+      this.day = new Date().getDate()
+      console.log(this.day)
+    }
   },
   components: {
     BScrollX,
@@ -70,6 +79,7 @@ export default {
   display: flex;
   overflow: hidden;
   text-align: center;
+  position: relative;
 }
 .dragon-item {
   position: relative;
@@ -101,5 +111,16 @@ export default {
   overflow: hidden;
   background-color: rgba(255, 0, 0, 0.3);
   border-radius: 50%;
+}
+
+// 当前日期
+.home-dragon-day{
+  z-index: 22;
+  position: absolute;
+  top: 17px;
+  left: 17px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
 }
 </style>

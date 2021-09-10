@@ -31,7 +31,7 @@ import {loginPost} from '@/network/Get/Login'
 export default {
     data () {
         return {
-            phone:"17860382907",
+            phone:"13546175424",
             password:"qq1421759951",
             loginSuccess:false,
             loginError:false,
@@ -57,10 +57,14 @@ export default {
                     this.loginSuccess = true;
                     localStorage.setItem('cookie',res.data.cookie)
                     localStorage.setItem('userId',res.data.profile.userId)
+                    localStorage.setItem('avatarUrl',res.data.profile.avatarUrl)
+                    localStorage.setItem('Nickname',res.data.profile.nickname)
+                    this.$store.commit('saveAdd',res.data)
                     setTimeout(()=>{
                         this.loginSuccess = false
                         this.phone = "",
                         this.password = ""
+                        this.$router.push('/home')
                     },2000)
                 }
                 

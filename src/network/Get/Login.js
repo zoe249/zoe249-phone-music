@@ -10,3 +10,10 @@ export function loginPost(phone, password) {
         }
     })
 }
+
+// 退出登录 /logout
+export function logoutPost() {
+    return requestPost({
+        url: "/logout"
+    })
+}
