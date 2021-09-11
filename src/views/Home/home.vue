@@ -161,7 +161,7 @@ export default {
   height: calc(100vh - 45px);
   width: 94vw;
   // position: relative;
-  margin: 49px 0px;
+  // margin: 0px 0px;
 }
 li {
   color: #fff;
@@ -169,7 +169,7 @@ li {
 .content {
   width: 94vw;
   height: calc(100vh - 45px);
-  margin: 49px 0px;
+  // margin: 49px 0px;
   margin-left: 12px;
   //  background-color: chocolate;
   // position: absolute;

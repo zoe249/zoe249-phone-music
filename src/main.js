@@ -12,6 +12,9 @@ new Vue({
     render: h => h(App)
 }).$mount('#app')
 
+// 创建事件总线
+const eventBus = new Vue()
+Vue.prototype.$eventBus = eventBus
 
 // 图片懒加载
 import Vuelazyload from 'vue-lazyload'

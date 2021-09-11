@@ -99,7 +99,6 @@ export default {
     inputValue() {
       this.getSuggest(this.inputValue);
       // this.SuggestShow()
-      console.log(this.inputValue);
     },
   },
   methods: {
@@ -160,7 +159,11 @@ export default {
     serchClick(name) {
       this.inputValue = name
       this.isseachFot = false
-      console.log(name);
+      if(this.$route.path !== "/search"){
+        this.$router.push(`/search?keywords=${name}`)
+      }else{
+        this.$eventBus.$emit("serchKeywords",name)
+      }
     },
     // 显示侧边栏
     asideShow(){
@@ -176,7 +179,7 @@ export default {
 <style lang="less">
 .main-top {
   z-index: 99;
-  
+  height: 49px;
 }
 .serch-false {
   position: fixed;

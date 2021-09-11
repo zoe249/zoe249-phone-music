@@ -12,7 +12,7 @@ export default {};
 #tab-bar {
   height: 49px;
   
-  position: fixed;
+  position:absolute;
   left: 0;
   right: 0;
   bottom: 0;

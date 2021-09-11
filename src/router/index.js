@@ -12,6 +12,8 @@ const Video = () =>
     import ('../views/Video/video.vue')
 const Login = () =>
     import ('@/views/Login/login.vue')
+const Search = () =>
+    import ('@/views/Search/Search.vue')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -41,6 +43,10 @@ const routes = [{
         path: "/video",
         component: Video,
         meta: { options: "login" }
+    },
+    {
+        path: "/search",
+        component: Search
     }
 ]
 
