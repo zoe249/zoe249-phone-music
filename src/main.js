@@ -12,6 +12,10 @@ new Vue({
     render: h => h(App)
 }).$mount('#app')
 
+// 全局混入   慎用
+import mixins from './utils/mixin'
+Vue.mixin(mixins)
+
 // 创建事件总线
 const eventBus = new Vue()
 Vue.prototype.$eventBus = eventBus

@@ -25,7 +25,7 @@ export default {
       });
 
       this.scroll.on("scroll", (position) => {
-        // console.log(position)
+        this.$emit('scroll',position)
       });
 
       // 监听上拉事件
@@ -38,9 +38,12 @@ export default {
     });
   },
   methods: {
+    scrollTo(x,y,time = 500){
+      this.scroll && this.scroll.scrollTo(x,x,time)
+    },
     refresh() {
       this.scroll && this.scroll.refresh();
-      console.log(this.scroll);
+      // console.log(this.scroll);
     },
     finishPullUp() {
       this.scroll && this.scroll.finishPullUp();

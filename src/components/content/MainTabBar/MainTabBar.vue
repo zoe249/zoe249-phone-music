@@ -43,11 +43,11 @@ export default {
 
 <style lang="less">
 .Main-Tab-Bar{
-    z-index: 99;
-    height: 49px;
-    position:absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    // z-index: 99;
+    // height: 49px;
+    // position:absolute;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
 }
 </style>
