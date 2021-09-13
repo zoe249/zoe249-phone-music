@@ -1,5 +1,6 @@
 <template>
   <div class="Home-Main wrapper">
+    <main-top/>
     <b-scroll class="content">
       <!-- 轮播图 -->
       <home-banner :BannerList="BannerList" />
@@ -35,6 +36,7 @@ import HomeVideoP from  "./children/homeVideoPost.vue"
 // 引入纵向侧边栏
 import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
 import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
+import MainTop from '@/components/content/MainTop/MainTop.vue'
 import {
   getHomeBanners,
   getHomeDragon,
@@ -149,6 +151,7 @@ export default {
     HomeNewsong,
     HomePersonP,
     HomeVideoP,
+    MainTop
   },
 };
 </script>

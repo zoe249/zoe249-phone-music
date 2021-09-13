@@ -1,5 +1,7 @@
 <template>
   <div class="search-main wrapper">
+    <!-- 搜索栏 -->
+    <main-top />
     <!-- 搜索类型导航 -->
     <search-control :titles="['单曲', '歌单', '歌手']" @trolClick="trolClick" />
 
@@ -36,6 +38,7 @@ import SearchControl from "./children/SearchControl.vue";
 import SearchSong from "./children/SearchSong.vue";
 import SearchList from "./children/SearchList.vue";
 import SearchAlbum from "./children/SearchAlbum.vue";
+import MainTop from '@/components/content/MainTop/MainTop.vue'
 export default {
   mixins: [itemListenerMixin, backTopMixin],
   data() {
@@ -138,6 +141,8 @@ export default {
     SearchSong,
     SearchList,
     SearchAlbum,
+    MainTop
+    
   },
 };
 </script>

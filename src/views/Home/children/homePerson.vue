@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     musicListId(id) {
-      console.log(id)
+      this.$router.push(`/musiclist?id=${id}`)
     },
     // 解决滑动问题，手动刷新
     personScroll(){

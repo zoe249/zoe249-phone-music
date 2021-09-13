@@ -14,6 +14,8 @@ const Login = () =>
     import ('@/views/Login/login.vue')
 const Search = () =>
     import ('@/views/Search/Search.vue')
+const MusicList = () =>
+    import ('@/views/MusicList/MusicList.vue')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -51,6 +53,11 @@ const routes = [{
     {
         path: "/search",
         component: Search
+    },
+    {
+        path: '/musiclist',
+        component: MusicList,
+        // meta: { options: "login" }
     }
 ]
 
