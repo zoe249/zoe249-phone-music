@@ -131,7 +131,6 @@ export default {
     // 推荐视频
     HomevideoPost(cookie) {
       HomevideoPost(cookie).then((res) => {
-        console.log(res);
         this.VideoPost = res.data.datas
       });
     },

@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     listClick(id) {
-      console.log(id);
+      this.$router.push(`/musiclist?id=${id}`)
     },
   },
 };

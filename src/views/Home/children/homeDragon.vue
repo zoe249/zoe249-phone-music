@@ -50,7 +50,6 @@ export default {
   methods: {
     Todaydate(){
       this.day = new Date().getDate()
-      console.log(this.day)
     }
   },
   components: {
