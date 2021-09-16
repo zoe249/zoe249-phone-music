@@ -1,92 +1,152 @@
 <template>
   <div class="live">
     <!-- 导航栏 -->
-    <live-tab :titles="['推荐', '分类']"></live-tab>
+    <live-cont :titles="['推荐', '分类']" @ClickLiveTab="ClickLiveTab" />
 
-    <!-- 分类横向滑动 -->
-    <div class="wrapper-cate">
-      <b-scroll-x ref="scroll" class="content">
-        <div class="content-main">
-          <div
-            class="category-item"
-            v-for="(item, index) in liveCategory"
-            :key="index"
-          >
-            
-            <span>{{ item.name }}</span>
-          </div>
-        </div>
-      </b-scroll-x>
+    <!-- 推荐页 -->
+    <div class="checkout-recommend" v-if="lable">
+      <div class="recommend-tab">24小时推荐</div>
+        <b-scroll @scroll="contentScroll" ref="scroll" @pullingUp="pullingUp" class="recommend-scroll">
+            <live-recommend :liveRecommend="liveRecommend"/>
+        </b-scroll>
     </div>
+
+    <!-- 分类页 -->
+    <div class="checkout-categroy" v-else>
+      <!-- 分类横向滑动 -->
+      <div class="wrapper-cate">
+        <b-scroll-x ref="scrollx" class="content">
+          <category :liveCategory="liveCategory" @Category="Category" />
+        </b-scroll-x>
+      </div>
+
+      <!-- 电台分类具体内容 -->
+      <b-scroll ref="scrolly" class="live-content">
+        <live-content :liveCateContent="liveCateContent" />
+      </b-scroll>
+    </div>
+    
+    <!-- 返回顶部 -->
+      <back-top @click.native="backTop" v-show="isShowBackTop" />
   </div>
 </template>
 
 <script>
+// 混入
+import { itemListenerMixin, backTopMixin } from "@/utils/utils";
 import {
-  liveRecomPost,
   liveCatePost,
   liveRecoTypePost,
-  liveDetailPost,
   liveHoursGet,
 } from "@/network/Get/Live";
-import LiveTab from "./children/LiveTab.vue";
+import LiveCont from "./children/LiveCont.vue";
+import Category from "./children/Category.vue";
+import LiveContent from "./children/LiveContent.vue";
+import LiveRecommend from "./children/LiveRecommend.vue"
 import BScrollX from "@/components/comment/better-scroll/BetterScroolX.vue";
+import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
+// import backTop from "@/components/content/backTop/backTop.vue"
 export default {
+  mixins:[itemListenerMixin, backTopMixin],
   data() {
     return {
+      // 24小时推荐列表
+      liveRecommend: [],
+      //是否显示分类
+      lable: true,
       // 电台分类
       type: 2,
       // 分类列表
       liveCategory: [],
+      // 分类内容
+      liveCateContent: [],
+      // 24小时推荐列表获取数量
       limit: 15,
     };
   },
   created() {
-    // this.liveRecomPost()
-    this.liveCatePost();
-    this.liveRecoTypePost();
 
     this.liveHoursGet();
   },
-  mounted () {
-    this.liveCatePost();
+  mounted() {
+    console.log(this.$refs);
   },
   methods: {
     savecookie() {
       return this.$store.getters.savecookie();
     },
-    // // 推荐电台
-    // liveRecomPost(){
-    //   liveRecomPost(this.savecookie).then(res=>{
-    //     console.log(res)
-    //   })
-    // },
+
     // 电台分类
     liveCatePost() {
       liveCatePost(this.savecookie).then((res) => {
         this.liveCategory = res.data.categories;
-        console.log(this.liveCategory);
-        this.$refs.scroll.refresh()
+        setTimeout(() => {
+          this.$refs.scrollx.refresh();
+        }, 500);
       });
     },
 
     // 电台分类详情
-    liveRecoTypePost() {
-      liveRecoTypePost(this.type, this.savecookie).then((res) => {
-        console.log(res);
+    liveRecoTypePost(type) {
+      liveRecoTypePost(type, this.savecookie).then((res) => {
+        // console.log(res);
+        this.liveCateContent = res.data.djRadios;
+        setTimeout(() => {
+          this.$refs.scroll.refresh();
+        }, 500);
       });
     },
 
     // 24小时电台
     liveHoursGet() {
       liveHoursGet(this.limit).then((res) => {
-        console.log(res);
+        // console.log(res);
+        this.liveRecommend = res.data.data.list;
       });
     },
+    // 切换
+    ClickLiveTab(index) {
+      console.log(index);
+      switch (index) {
+        case 0:
+          this.lable = true;
+          break;
+        case 1:
+          this.lable = false;
+          break;
+      }
+      console.log(this.lable);
+      this.liveCatePost();
+      this.liveRecoTypePost(this.type);
+    },
+    // 切换分类类型
+    Category(type) {
+      console.log(type);
+      this.type = type;
+      this.liveRecoTypePost(this.type);
+    },
+    // 监听滚动的位置
+    contentScroll(position){
+      // 判断backTop是否显示
+      this.listenShoBackTop(position)
+    },
+    // 监听下拉
+    pullingUp(){
+      // if(this.limit >= 105)
+      // alert('已经到底了')
+      this.limit  = this.limit+15
+      // console.log(this.limit)
+      this.liveHoursGet()
+      this.$refs.scroll.refresh()
+    }
   },
   components: {
     BScrollX,
-    LiveTab,
+    BScroll,
+    LiveCont,
+    Category,
+    LiveContent,
+    LiveRecommend
   },
 };
 </script>
@@ -97,7 +157,7 @@ export default {
   width: 100vw;
   overflow: hidden;
   // margin-left: 3vw;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
 }
 .content {
@@ -107,17 +167,27 @@ export default {
   width: 94vw;
   margin-left: 3vw;
 }
-.content-main {
-  display: flex;
+.live-content {
+  height: calc(100vh - 49px - 6em);
+  overflow: hidden;
 }
-.content-main .category-item{
-  margin-right: 1em;
-  color:#fff;
-  height: 3em;
-  line-height: 3em;
+
+// 推荐页面
+// 导航
+
+.recommend-scroll {
+  height: calc(100vh - 49px - 5.5em);
+  overflow: hidden;
 }
-// .category-item .category-item-true img{
-//   height: 2em;
-//   width: 2em;
-// }
+.recommend-tab {
+  color: #97d0ee;
+  height: 2.5em;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(13px);
+  font-size: 1em;
+  line-height: 2.5em;
+  text-align: center;
+}
+
+
 </style>

@@ -27,7 +27,7 @@ export default {
       this.$nextTick(() => {
         if (!this.scroll) {
           this.scroll = new BScroll(this.$refs.wrapperx, {
-            click: false,
+            click: true,
             scrollX: true,
             probeType: 3,
             
