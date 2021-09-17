@@ -11,15 +11,15 @@
               <img slot="item-active" src="@/assets/img/tab-bar-png/live.png">
               <div slot="item-name">播客</div>
           </tab-bar-item>
+          <tab-bar-item path="/profile">
+              <img slot="item-icon" src="@/assets/img/tab-bar-png/music-f.png" alt="">
+              <img slot="item-active" src="@/assets/img/tab-bar-png/music.png">
+              <div slot="item-name">我的</div>
+          </tab-bar-item>
           <tab-bar-item path="/follow">
               <img slot="item-icon" src="@/assets/img/tab-bar-png/follow-f.png" alt="">
               <img slot="item-active" src="@/assets/img/tab-bar-png/follow.png">
               <div slot="item-name">关注</div>
-          </tab-bar-item>
-          <tab-bar-item path="/music">
-              <img slot="item-icon" src="@/assets/img/tab-bar-png/music-f.png" alt="">
-              <img slot="item-active" src="@/assets/img/tab-bar-png/music.png">
-              <div slot="item-name">音乐</div>
           </tab-bar-item>
           <tab-bar-item path="/video">
               <img slot="item-icon" src="@/assets/img/tab-bar-png/video-f.png" alt="">

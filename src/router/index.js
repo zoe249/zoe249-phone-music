@@ -6,8 +6,8 @@ const Follow = () =>
     import ('@/views/Follow/follow.vue')
 const Live = () =>
     import ('@/views/Live/live.vue')
-const Music = () =>
-    import ('@/views/Music/music.vue')
+const Profile = () =>
+    import ('@/views/Profile/profile.vue')
 const Video = () =>
     import ('../views/Video/video.vue')
 const Login = () =>
@@ -41,8 +41,8 @@ const routes = [{
         meta: { options: "login" }
     },
     {
-        path: "/music",
-        component: Music,
+        path: "/profile",
+        component: Profile,
         meta: { options: "login" }
     },
     {

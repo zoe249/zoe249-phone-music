@@ -31,8 +31,8 @@ import {loginPost} from '@/network/Get/Login'
 export default {
     data () {
         return {
-            phone:"13546175424",
-            password:"qq1421759951",
+            phone:"",
+            password:"",
             loginSuccess:false,
             loginError:false,
         }

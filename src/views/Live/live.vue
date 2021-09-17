@@ -27,7 +27,7 @@
     </div>
     
     <!-- 返回顶部 -->
-      <back-top @click.native="backTop" v-show="isShowBackTop" />
+    <back-top @click.native="backTop" v-show="isShowBackTop" />
   </div>
 </template>
 
@@ -66,10 +66,10 @@ export default {
   },
   created() {
 
-    this.liveHoursGet();
+    
   },
   mounted() {
-    console.log(this.$refs);
+    this.liveHoursGet();
   },
   methods: {
     savecookie() {
@@ -106,7 +106,6 @@ export default {
     },
     // 切换
     ClickLiveTab(index) {
-      console.log(index);
       switch (index) {
         case 0:
           this.lable = true;
@@ -115,13 +114,11 @@ export default {
           this.lable = false;
           break;
       }
-      console.log(this.lable);
       this.liveCatePost();
       this.liveRecoTypePost(this.type);
     },
     // 切换分类类型
     Category(type) {
-      console.log(type);
       this.type = type;
       this.liveRecoTypePost(this.type);
     },

@@ -12,7 +12,9 @@
         <input type="text" :value="SearchDefault.showKeyword" @focus="searchT" />
       </div>
       <!-- 占位 -->
-      <div class="main-none"></div>
+      <div class="main-none">
+        <slot name="right"></slot>
+      </div>
     </div>
 
     <!-- 搜索 -->

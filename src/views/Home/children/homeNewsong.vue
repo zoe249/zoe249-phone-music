@@ -14,8 +14,8 @@
           </div>
           <div class="newsong-item-text">
             <div class="item-text-author">
-              <span>{{ item.name }} - </span>
-              <span> {{ item.song.artists[0].name }}</span>
+              <div>{{ item.name }}</div>
+              <div> {{ item.song.artists[0].name }}</div>
             </div>
             <div class="item-text-text">{{ item.song.album.name }}</div>
           </div>
@@ -99,17 +99,29 @@ h3 {
     border-radius: 8px;
   }
 }
-.newsong-item-text .item-text-author span:nth-child(1) {
+.newsong-item-text .item-text-author div:nth-child(1) {
   color: #fff;
   font-size: 17px;
+  width: 15em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.newsong-item-text .item-text-author span:nth-child(2) {
+.newsong-item-text .item-text-author div:nth-child(2) {
   font-size: 12px;
   color: #ccc;
+  width: 15em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .item-text-text {
   margin-top: 8px;
   font-size: 13px;
   color: rgb(143, 143, 143);
+  width: 15em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
