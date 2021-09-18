@@ -30,6 +30,7 @@ export default {
             click: true,
             scrollX: true,
             probeType: 3,
+            observeDOM:true
             
           });
           this.refresh();

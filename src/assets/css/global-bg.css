@@ -5,4 +5,5 @@
     /* background-image: url(./assets/img/bg/cloud-bg.jpg); */
     background-image: url(../img/bg/cloud-bg.jpg);
     background-size: 400px 800px;
+    overflow: hidden;
 }
