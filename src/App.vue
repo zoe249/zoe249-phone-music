@@ -4,19 +4,19 @@
     <!-- 底部导航栏 -->
     <main-tab-bar/>
     <!-- 播放器 -->
-    <player />
+    <!-- <player /> -->
   </div>
 </template>
 
 <script>
 import MainTop from '@/components/content/MainTop/MainTop.vue'
 import MainTabBar from '@/components/content/MainTabBar/MainTabBar.vue'
-import Player from '@/components/content/Player/player.vue'
+
 export default {
   components:{
     MainTop,
     MainTabBar,
-    Player
+    // Player
   }
 }
 </script>

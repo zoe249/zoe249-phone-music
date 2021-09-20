@@ -150,7 +150,7 @@ export default {
 <style lang="less" scoped>
 .search-main {
   // position: absolute;
-  height: calc(100vh - 49px -49px);
+  height: calc(100vh - 49px -49px - 3em);
   // margin: 49px 0;
 }
 .wrapper {

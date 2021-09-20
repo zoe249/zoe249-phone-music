@@ -146,7 +146,7 @@ export default {
 
 // 滑动
 .music-list-content{
-  height: calc(100vh - 45px);
+  height: calc(100vh - 45px - 3em);
    overflow: hidden;
   //  position: relative;
 }

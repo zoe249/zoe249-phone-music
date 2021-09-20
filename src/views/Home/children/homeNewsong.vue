@@ -7,7 +7,7 @@
           class="newsong-item"
           v-for="(item, index) in Newsong"
           :key="index"
-          @click="NewsongClick(item.id)"
+          @click="NewsongClick(item.id,item.name,item.song.artists[0].name)"
         >
           <div class="newsong-item-img">
             <img v-lazy="item.picUrl" alt="" />
@@ -40,8 +40,14 @@ export default {
     BScrollX,
   },
   methods: {
-    NewsongClick(id) {
-      console.log(id);
+    NewsongClick(id,name,artist) {
+      // console.log(id+1);
+      console.log(id)
+      let musicMes = {}
+      musicMes.id = id
+      musicMes.name = name
+      musicMes.artist = artist
+      this.$store.dispatch("getMusic",musicMes)
     },
   },
 };

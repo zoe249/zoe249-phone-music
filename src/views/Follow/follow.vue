@@ -25,7 +25,7 @@
           class="newsong-item"
           v-for="(item, index) in artistnewList"
           :key="index"
-          @click="artistClick(item.songLists[0].id)"
+          @click="artistClick(item.songLists[0].id,item.blockTitle.resourceName,item.blockTitle.artistName)"
         >
           <div class="newsong-item-img">
             <img v-lazy="item.songLists[0].al.picUrl" alt="" />
@@ -96,8 +96,13 @@ export default {
       // this.userEvent(userId,this.limit, this.saveCookie())
     },
     // 单击获取歌手id
-    artistClick(id) {
-      console.log(id);
+    artistClick(id,name,artist) {
+      // console.log(id);
+      let musicMes = {}
+      musicMes.id = id
+      musicMes.name = name
+      musicMes.artist = artist
+      this.$store.dispatch("getMusic",musicMes)
     },
   },
   components: {
@@ -157,7 +162,7 @@ export default {
 }
 
 .scroll{
-  height: calc(100vh - 49px - 6em - 49px);
+  height: calc(100vh - 49px - 6em - 49px - 3em);
   overflow: hidden;
 }
 .newsong-item {

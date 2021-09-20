@@ -27,16 +27,21 @@
               <div slot="item-name">视频</div>
           </tab-bar-item>
       </tab-bar>
+      
+      <!-- 播放器 -->
+      <player/>
   </div>
 </template>
 
 <script>
 import TabBar from "@/components/comment/TabBar/TabBar.vue";
 import TabBarItem from "@/components/comment/TabBar/TabBarItem.vue";
+import Player from '@/components/content/Player/player.vue'
 export default {
   components: {
     TabBar,
     TabBarItem,
+    Player
   },
 };
 </script>

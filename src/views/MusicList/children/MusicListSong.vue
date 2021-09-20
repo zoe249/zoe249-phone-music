@@ -1,7 +1,9 @@
 <template>
   <div class="music-list-song">
     <div class="song-item"
-    v-for="(item,index) in musicsong" :key="index">
+    v-for="(item,index) in musicsong" 
+    :key="index"
+    @click="playMusic(item.id,item.name,item.ar[0].name)">
       <div class="song-item-index">{{index + 1}}</div>
       <div class="song-item-text">
         <div class="song-item-name">{{item.name}}</div>
@@ -27,6 +29,17 @@ export default {
       },
     },
   },
+  methods: {
+    // 播放音乐
+    playMusic(id,name,artist){
+      console.log(id)
+      let musicMes = {}
+      musicMes.id = id
+      musicMes.name = name
+      musicMes.artist = artist
+      this.$store.dispatch("getMusic",musicMes)
+    },
+  }
 };
 </script>
 

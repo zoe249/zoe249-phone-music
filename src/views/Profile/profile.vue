@@ -81,7 +81,6 @@ export default {
     // 发送请求，获取用户歌单
     profilePlaylist(uid, cookie) {
       profilePlaylist(uid, cookie).then((res) => {
-        console.log(res);
         this.userPlaylist = res.data.playlist;
         this.$refs.scroll.refresh()
       });
@@ -121,7 +120,7 @@ export default {
 
 
 .profile-scroll{
-  height: calc(100vh - 49px - 49px);
+  height: calc(100vh - 49px - 49px - 3em);
   overflow: hidden;
 }
 .profile-user {

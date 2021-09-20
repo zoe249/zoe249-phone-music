@@ -97,7 +97,7 @@ export default {
 // 视频内容
 
 .video-scroll{
-  height: calc(100vh - 49px - 49px - 3em);
+  height: calc(100vh - 49px - 49px - 3em - 3em);
   overflow: hidden;
 }
 

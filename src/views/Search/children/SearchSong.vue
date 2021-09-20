@@ -1,10 +1,10 @@
 <template>
-  <div class="search-song" >
+  <div class="search-song">
     <div
       class="search-song-item"
       v-for="(item, index) in searchsongList"
       :key="index"
-      @click="SerchSong(item.id)"
+      @click="SerchSong(item.id,item.name,item.ar[0].name)"
     >
       <div class="item-name">{{ item.name }}</div>
       <div class="item-author">
@@ -18,19 +18,24 @@
 
 <script>
 export default {
-    props:{
-        searchsongList:{
-            type:Array,
-            default(){
-                return []
-            }
-        }
+  props: {
+    searchsongList: {
+      type: Array,
+      default() {
+        return [];
+      },
     },
-    methods: {
-        SerchSong(id){
-            console.log(id)
-        }
-    }
+  },
+  methods: {
+    SerchSong(id,name,artist) {
+      console.log(id);
+      let musicMes = {};
+      musicMes.id = id;
+      musicMes.name = name;
+      musicMes.artist = artist;
+      this.$store.dispatch("getMusic", musicMes);
+    },
+  },
 };
 </script>
 

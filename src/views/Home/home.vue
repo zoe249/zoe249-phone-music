@@ -21,7 +21,7 @@
       <home-person :Person="Person" />
 
       <!-- 占位 -->
-      <div class="baise"></div>
+      <!-- <div class="baise"></div> -->
     </b-scroll>
   </div>
 </template>
@@ -160,7 +160,7 @@ export default {
   z-index: 1;
 }
 .wrapper {
-  height: calc(100vh - 45px);
+  // height: calc(100vh - 45px);
   width: 94vw;
   // position: relative;
   // margin: 0px 0px;
@@ -170,14 +170,12 @@ li {
 }
 .content {
   width: 94vw;
-  height: calc(100vh - 45px);
+  height: calc(100vh - 45px - 49px - 3em);
   // margin: 49px 0px;
   margin-left: 12px;
   //  background-color: chocolate;
   // position: absolute;
   overflow: hidden;
 }
-.baise {
-  height: 300px;
-}
+
 </style>

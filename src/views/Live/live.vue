@@ -165,7 +165,7 @@ export default {
   margin-left: 3vw;
 }
 .live-content {
-  height: calc(100vh - 49px - 6em);
+  height: calc(100vh - 49px - 6em - 3em);
   overflow: hidden;
 }
 
