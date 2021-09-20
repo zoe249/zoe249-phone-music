@@ -68,11 +68,15 @@
 
     <!-- 侧边栏 -->
     <main-aside ref="mainaside"></main-aside>
+
+    <!-- player播放器 -->
+    <!-- <player /> -->
   </div>
 </template>
 
 <script>
 import MainAside from '../MainAside/MainAside.vue'
+import Player from '../Player/player.vue'
 import { getSearchHot,getSearchDefault,getSuggest } from "@/network/Get/MainTop";
 export default {
   data() {
@@ -173,7 +177,8 @@ export default {
     }
   },
   components:{
-    MainAside
+    MainAside,
+    Player
   }
 };
 </script>
