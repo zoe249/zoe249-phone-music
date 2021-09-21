@@ -38,7 +38,9 @@ export default {
   },
     data () {
         return {
-            playing:true
+            playing:true,
+            // 音乐总时间
+            // duration:""
         }
     },
     computed:{
@@ -65,10 +67,12 @@ export default {
         // 开始播放
         play(){
           this.$refs.audio.play()
+          let duration = this.duration()
           this.$emit('playanimationT')
+          this.$emit('audioPalyer',duration)
           this.playing = false
           // this.refresh()
-          console.log(this.$refs.audio)
+          
         },
         // 停止播放
         pause(){
@@ -76,7 +80,25 @@ export default {
           this.$emit('playanimationF')
           this.playing = true
         },
-
+        // 音频总长度
+        duration(){
+          let duration = this.$refs.audio.duration
+          // this.duration = duration
+          return this.timeFormat(duration)
+        },
+        // 格式化播放时间
+        timeFormat(a){
+          let minute = parseInt(a / 60)
+          let second = parseInt(a % 60)
+          let duration = ""
+          if(parseInt(a % 60) <= 9){
+             duration = "0"+minute+":0"+second
+          }else{
+            duration = "0"+minute+":"+second
+          }
+          
+          return duration
+        }
     }
 };
 </script>

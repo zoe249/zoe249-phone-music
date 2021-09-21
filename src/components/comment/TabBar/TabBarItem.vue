@@ -33,8 +33,7 @@ export default {
   flex-direction: column;
   align-items: center;
   height: 49px;
-  background: rgba(55, 55, 65, 0.3);
-  backdrop-filter: blur(13px);
+  
   padding:3px 0;
   img {
     height: 25px;

@@ -11,7 +11,8 @@ export default {};
 <style lang="less">
 #tab-bar {
   height: 49px;
-  
+  background: rgba(55, 55, 65, 0.3);
+  backdrop-filter: blur(13px);
   position:absolute;
   left: 0;
   right: 0;
