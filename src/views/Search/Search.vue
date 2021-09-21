@@ -65,17 +65,23 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+    console.log(this.$route)
+  },
   mounted() {
     this.searchQuery();
     this.getSearch();
   },
   methods: {
     searchQuery() {
-      this.$eventBus.$on("serchKeywords", (key) => {
+      if(this.$route.query){
+        this.queryInfo.keywords = this.$route.query.keywords
+      }else{
+        this.$eventBus.$on("serchKeywords", (key) => {
         this.queryInfo.keywords = key;
         this.getSearch();
       });
+      }
     },
     // 请求数据
     getSearch() {

@@ -69,6 +69,7 @@ const router = new VueRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
+    document.title = "你那天在脸红什么"
     if (to.meta.options) {
         const cookieStr = localStorage.getItem('cookie')
         if (!cookieStr) return next("/login")
