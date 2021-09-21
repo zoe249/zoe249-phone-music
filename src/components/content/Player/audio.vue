@@ -60,7 +60,7 @@ export default {
             this.play()
           },1000)
           
-          console.log(this.$refs.audio)
+          // console.log(this.$refs.audio)
         },
         // 开始播放
         play(){

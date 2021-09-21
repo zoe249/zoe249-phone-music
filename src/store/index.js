@@ -67,6 +67,9 @@ export default new Vuex.Store({
                 state.loginState.Nickname = localStorage.getItem('Nickname')
             }
             return state.loginState.Nickname
+        },
+        saveInfo(state) {
+            return state.audioInfo
         }
     },
     mutations: {
@@ -86,17 +89,18 @@ export default new Vuex.Store({
         // }
     },
     actions: {
-        getMusic(content, musicMes) {
+        async getMusic(content, musicMes) {
             let id = musicMes.id
             let result = {}
             result = musicMes
                 // 获取音乐播放连接
-            getMusicUrl(id).then(res => {
+            await getMusicUrl(id).then(res => {
                     // console.log(res)
                     result.url = res.data.data[0].url
+                    content.commit('playMusic', result)
                 })
                 // 获取歌词
-            getMusiclyric(id).then(res => {
+            await getMusiclyric(id).then(res => {
                     if (res.data.lrc) {
                         // console.log(res)
                         result.lrc = res.data.lrc.lyric
@@ -105,14 +109,16 @@ export default new Vuex.Store({
                     }
                 })
                 // 获取音乐信息
-            getMusicDateil(id).then(res => {
+            await getMusicDateil(id).then(res => {
                     // console.log(res)
                     result.cover = res.data.songs[0].al.picUrl
                 })
+                // setTimeout(() => {
                 // 播放音乐
             content.commit('playMusic', result)
                 // content.commit('play')
             return result
+                // }, 500)
         }
     },
     modules: {}

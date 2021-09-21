@@ -43,7 +43,7 @@
 
 <script>
 import AudioPlay from './audio.vue' 
-import {mapState} from 'vuex'
+import {mapState,mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -54,7 +54,8 @@ export default {
     };
   },
   computed:{
-    ...mapState(['audioInfo'])
+    ...mapState(['audioInfo']),
+    
   },
   methods: {
     rotateC() {
