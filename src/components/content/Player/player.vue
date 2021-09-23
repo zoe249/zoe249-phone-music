@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       // 是否显示播放页面
-      playerBig: true,
+      playerBig: false,
       // 是否开启播放动画
       playanimation: false,
       // 是否列表循环
