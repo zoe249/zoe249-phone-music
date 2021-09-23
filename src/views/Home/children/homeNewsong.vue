@@ -42,7 +42,7 @@ export default {
   methods: {
     NewsongClick(id,name,artist) {
       // console.log(id+1);
-      console.log(id)
+      // console.log(id)
       let musicMes = {}
       musicMes.id = id
       musicMes.name = name

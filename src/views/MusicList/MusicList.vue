@@ -64,11 +64,11 @@ export default {
     },
     playListGet() {
       playListGet(this.musiclistId, this.saveCookie()).then((res) => {
-        console.log(res);
+        // console.log(res);
         this.musiclist = res.data.playlist;
         this.musicauthor = this.musiclist.creator
         this.musicsong = this.musiclist.tracks
-        console.log(this.musicsong)
+        // console.log(this.musicsong)
       });
     },
     // 返回上一页

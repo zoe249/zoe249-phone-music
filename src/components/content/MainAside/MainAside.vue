@@ -32,7 +32,7 @@ export default {
     };
   },
   created() {
-    console.log(this.loging());
+    // console.log(this.loging());
   },
   methods: {
     asideNoShow() {

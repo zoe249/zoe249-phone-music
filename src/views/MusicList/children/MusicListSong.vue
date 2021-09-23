@@ -32,7 +32,7 @@ export default {
   methods: {
     // 播放音乐
     playMusic(id,name,artist){
-      console.log(id)
+      // console.log(id)
       let musicMes = {}
       musicMes.id = id
       musicMes.name = name

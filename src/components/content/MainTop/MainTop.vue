@@ -30,6 +30,7 @@
             autofocus="autofocus"
             v-model="inputValue"
             @focus="SarchFocus"
+            @keydown.enter="serchClick(inputValue)"
           />
         </div>
       </div>
@@ -171,6 +172,10 @@ export default {
         this.$eventBus.$emit("serchKeywords",name)
       }
     },
+    // // 按下搜索
+    // serchEnter(a){
+    //   console.log(a)
+    // },
     // 显示侧边栏
     asideShow(){
       this.$refs.mainaside.asideShow()

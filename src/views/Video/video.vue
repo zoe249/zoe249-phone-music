@@ -62,7 +62,7 @@ export default {
     // 获取标签下视频详情
     videoGroupId(id, offset, cookie) {
       videoGroupId(id, offset, cookie).then((res) => {
-        console.log(res);
+        // console.log(res);
         this.videoList = res.data.datas;
         this.$refs.scrolly.refresh()
       });

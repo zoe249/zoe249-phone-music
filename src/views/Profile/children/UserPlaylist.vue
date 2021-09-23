@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         ClickUserPlay(id){
-            console.log(id)
+            // console.log(id)
             this.$router.push(`/musiclist?id=${id}`)
         }
     }

@@ -8,6 +8,7 @@
       @playanimationT="playanimationT"
       @playanimationF="playanimationF"
       @audioPalyer="audioPalyer"
+      @timeupdate="timeupdate"
       ref="audioPlay"/>
       
     <!-- </div> -->
@@ -22,13 +23,12 @@
           <img  src="../../../assets/img/player/small.png" @click="playerBigF" alt="" >
           <div>{{audioInfo.name}}</div>
         </div>
-
+        
         <!-- 旋转碟片 -->
         <div class="playermain-pic">
           <div
             :class="{ animActive: playanimation }"
             class="player-rote"
-            @click="rotateC"
           >
             <img  :src="audioInfo.cover" alt="" />
             <span style="--i: 1"></span>
@@ -41,7 +41,11 @@
           <!-- 进度条 -->
           <div class="player-view">
             <div class="view-current">{{currentTime}}</div>
-            <div class="view-bar"></div>
+            <!-- 进度条 -->
+            <div class="view-bar"   @mousedown="currentMouse" ref="viewbar">
+              <div ref="current"  class="bar-current"></div>
+              <div class="view-mouse"></div>
+            </div>
             <div class="view-duration"> {{duration}} </div>
           </div>
 
@@ -83,7 +87,7 @@ export default {
   data() {
     return {
       // 是否显示播放页面
-      playerBig: false,
+      playerBig: true,
       // 是否开启播放动画
       playanimation: false,
       // 是否列表循环
@@ -93,7 +97,12 @@ export default {
       // 当前播放时间
       currentTime:"00:00",
       // 总时间
-      duration:"00:00"
+      duration:"00:00",
+      // 当前音乐播放百分比\
+      percent:"",
+      // 当前进度条宽度百分比
+      percentX:"",
+      // a:"0"
     };
   },
   computed:{
@@ -135,7 +144,32 @@ export default {
     pause(){
       this.playing = true
       this.$refs.audioPlay.pause()
-    }
+    },
+    // 当前播放时间
+    timeupdate(currentTime,Tpercent){
+      this.currentTime = currentTime
+      this.$refs.current.style.width = Tpercent+"%"
+      // let current = document.querySelector('.bar-current')
+      // console.log(this.$refs.current.style.width)
+      // console.log(this.$refs.viewbar.style.width)
+    },
+    // 点击改变播放位置
+    currentMouse(){
+      // 当前宽度
+      // console.log(event)
+      let currentX = event.clientX - this.$refs.current.getBoundingClientRect().left
+      currentX = parseInt(currentX)
+      // 获取总进度条的宽度
+      let barW = document.querySelector('.view-bar').offsetWidth
+      // 计算百分比
+      this.percent = currentX / barW
+      this.percentX =  (currentX / barW) *100
+      // console.log(parseInt(this.percentX))
+      // 改变当前current当前进度的宽度
+      this.$refs.current.style.width = this.percentX+"%"
+      this.$refs.audioPlay.timeCurrent(this.percent)
+    },
+   
   },
   components:{
     AudioPlay
@@ -293,8 +327,25 @@ export default {
 .player-view .view-bar{
   width: 65vw;
   height: 1px;
-  background-color: #fff;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
 }
+
+// 当前进度条
+.view-bar .bar-current{
+  height: 1px;
+  width: 0px;
+  background-color: #FBCC74;
+}
+// 拖动按钮
+.view-bar .view-mouse{
+  height: 0.5em;
+  width: 0.5em;
+  background-color: #FBCC74;
+  border-radius: 50%;
+}
+
 
 // 按钮视图
 .playermain-btn .playing-btn{
