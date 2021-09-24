@@ -1,6 +1,11 @@
 <template>
-  <div class="audio">
-    <audio :src="audioInfo.url" ref="audio" @timeupdate="timeupdate"></audio>
+  <div 
+    class="audio">
+    <audio :loop="loop" 
+    :src="audioInfo.url" 
+    ref="audio" 
+    @timeupdate="timeupdate"
+    @ended="ended"></audio>
     <!-- src="http://m8.music.126.net/20210920094537/122aafa9da4dd6ef8b98d033b64e9acb/ymusic/025e/0208/5559/544a7156375b2bdb1cebb3987a81d29d.mp3" -->
     <div class="audio-main" @click="playbigT">
       <div class="audio-player-pic">
@@ -46,8 +51,9 @@ export default {
     return {
       playing: true,
       // 音乐总时间
-      sDuration:""
+      sDuration:"",
       // a:"0"
+      loop:true
     };
   },
   computed: {
@@ -145,6 +151,18 @@ export default {
     timeCurrent(percentX){
       let tcurrent = parseInt(this.sDuration * percentX )
       this.$refs.audio.currentTime = tcurrent
+    },
+    // 改变播放模式为单曲循环
+    loopTrue(){
+      this.loop = true
+    },
+    // 改变播放模式为列表循环
+    loopFalse(){
+      this.loop = false
+    },
+    // 音频播放完毕
+    ended(){
+      this.$emit('audioEnded')
     }
   },
 };

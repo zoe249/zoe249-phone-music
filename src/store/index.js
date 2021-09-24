@@ -19,7 +19,7 @@ export default new Vuex.Store({
             // 用户昵称
             Nickname: null
         },
-        audioInfo: {
+        audioInfo: [{
             id: 1330348068,
             url: 'https://music.163.com/song/media/outer/url?id=1330348068.mp3',
             cover: 'https://p3.music.126.net/diGAyEmpymX8G7JcnElncQ==/109951163699673355.jpg',
@@ -27,7 +27,7 @@ export default new Vuex.Store({
             theme: '#f56c6c',
             name: '起风了',
             artist: '买辣椒也用券',
-        }
+        }, ]
     },
     getters: {
         // 是否登录
@@ -43,7 +43,7 @@ export default new Vuex.Store({
         saveCookie(state) {
             if (localStorage.getItem('cookie')) {
                 state.loginState.cookie = localStorage.getItem('cookie')
-                console.log(123 + "cookie")
+                    // console.log(123 + "cookie")
             }
             return localStorage.getItem('cookie')
         },
@@ -78,8 +78,15 @@ export default new Vuex.Store({
             state.loginState.userId = state.loginState.user.userId
             state.loginState.cookie = data.cookie
         },
+        // 添加到播放列表
         playMusic(state, result) {
-            state.audioInfo = result
+
+            // 过滤重复
+            state.audioInfo = state.audioInfo.filter((item) => {
+                return item.id !== result.id
+            })
+            state.audioInfo.push(result)
+                // console.log(state.audioInfo)
                 // console.log(123)
 
         },
