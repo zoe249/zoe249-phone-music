@@ -3,7 +3,7 @@
     <!-- 小播放器 -->
     <!-- <div class="player-small" > -->
     <audio-play
-      :audioInfo="audioInfo[0]"
+      :audioInfo="audioInfoP"
       @playbigT="playbigT"
       @playanimationT="playanimationT"
       @playanimationF="playanimationF"
@@ -18,7 +18,7 @@
     <!-- 播放器主页 -->
     <div v-show="playerBig" class="player-big">
       <div class="big-pic">
-        <img :src="audioInfo[0].cover" alt="" />
+        <img :src="audioInfoP.cover" alt="" />
       </div>
       <div class="big-main">
         <div class="playermain-name">
@@ -27,19 +27,21 @@
             @click="playerBigF"
             alt=""
           />
-          <div>{{ audioInfo[0].name }}</div>
+          <div>{{ audioInfoP.name }}</div>
         </div>
 
         <!-- 旋转碟片 -->
         <div class="playermain-pic">
           <div :class="{ animActive: playanimation }" class="player-rote">
-            <img :src="audioInfo[0].cover" alt="" />
+            <img :src="audioInfoP.cover" alt="" />
             <span style="--i: 1"></span>
             <span style="--i: 2"></span>
             <span style="--i: 3"></span>
             <span style="--i: 4"></span>
           </div>
         </div>
+
+        <!-- 按钮部分 -->
         <div class="playermain-btn">
           <!-- 进度条 -->
           <div class="player-view">
@@ -64,7 +66,7 @@
               <img v-else src="../../../assets/img/player/loop.png" alt="" />
             </div>
             <!-- 上一首 -->
-            <div class="player-from">
+            <div class="player-from" @click="playFrom">
               <img src="../../../assets/img/player/next.png" alt="" />
             </div>
             <!-- 播放/暂停 -->
@@ -83,7 +85,7 @@
               />
             </div>
             <!-- 下一首 -->
-            <div class="player-next">
+            <div class="player-next" @click="playNext">
               <img src="../../../assets/img/player/next.png" alt="" />
             </div>
             <!-- 播放列表 -->
@@ -114,12 +116,13 @@
             class="playing-item"
             v-for="(item, index) in audioInfo"
             :key="index"
+            @click="listClick(item,index)"
           >
             <div class="item-name">
               <div>{{ item.name }}</div>
               <div>{{ item.artist }}</div>
             </div>
-            <div class="item-delete">
+            <div class="item-delete" @click.stop="deleteItem(index)">
               <img src="../../../assets/img/player/X.png" alt="" />
             </div>
           </div>
@@ -159,6 +162,10 @@ export default {
 
       // 显示播放列表
       playinglist: false,
+      // 音乐数据
+      audioInfoP:{},
+      // 播放位置
+      playIndex:null
     };
   },
   computed: {
@@ -166,13 +173,25 @@ export default {
     ...mapGetters(['saveInfo'])
   },
   watch:{
+    audioInfo(){
+      this.addAdudio()
+    },
     saveInfo(){
       this.Bsrefresh()
     }
   },
+  mounted () {
+    this.addAdudio()
+    this.playIndex = 0
+  },
   methods: {
+    // 旋转动画
     rotateC() {
       this.playanimation = true;
+    },
+    // 获取音乐数据
+    addAdudio(){
+      this.audioInfoP = this.audioInfo[0]
     },
     // 隐藏播放页面
     playerBigF() {
@@ -192,6 +211,7 @@ export default {
     },
     // 播放
     play() {
+      this.$refs.scroll.refresh()
       this.playing = false;
       this.$refs.audioPlay.play();
       this.duration = this.$refs.audioPlay.duration();
@@ -208,7 +228,8 @@ export default {
     },
     // 播放结束
     audioEnded() {
-      this.playanimation = false;
+      // this.playanimation = false;
+      this.playNext()
     },
     // 当前播放时间
     timeupdate(currentTime, Tpercent) {
@@ -249,6 +270,38 @@ export default {
     playlistT() {
       this.playinglist = true;
     },
+    // 点击切换播放音乐
+    listClick(item,index){
+      this.audioInfoP = item
+      this.playIndex = index
+      setTimeout(()=>{
+        this.play()
+      },500)
+      
+    },
+    // 上一首
+    playFrom(){
+      if(this.playIndex !==0){
+        this.playIndex--
+        this.audioInfoP = this.audioInfo[this.playIndex]
+        setTimeout(()=>{
+          this.play()
+        },500)
+      }
+    },
+    // 下一首
+    playNext(){
+      
+      if(this.playIndex !== this.audioInfo.length-1){
+        this.playIndex++
+        this.audioInfoP = this.audioInfo[this.playIndex]
+        setTimeout(()=>{
+          this.play()
+        },500)
+      }else if(this.playIndex === this.audioInfo.length-1){
+        this.pause()
+      }
+    },
     // 隐藏播放列表
     playlistF() {
       this.playinglist = false;
@@ -257,8 +310,13 @@ export default {
     Bsrefresh(){
       this.$refs.scroll.refresh()
     },
+    // 删除音乐
+    deleteItem(index){
+      this.$store.commit('deleteMusic',index)
+    },
 
-    // 注释:左右滑动会与手机端的左右滑动冲突，不采用
+
+    // 注释:左右滑动会与手机端的左右滑动返回功能冲突，不采用
     // @touchstart.stop="btnDown" @touchmove.stop="btnMove" @touchend.stop="btnUp"
     btnDown() {
       // console.log(event.targetTouches[0].clientX)

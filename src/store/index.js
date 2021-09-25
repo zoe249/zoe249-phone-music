@@ -83,17 +83,24 @@ export default new Vuex.Store({
 
             // 过滤重复
             state.audioInfo = state.audioInfo.filter((item) => {
-                return item.id !== result.id
-            })
-            state.audioInfo.push(result)
-                // console.log(state.audioInfo)
-                // console.log(123)
+                    return item.id !== result.id
+                })
+                // 添加到最前面
+            state.audioInfo.unshift(result)
+                // state.audioInfo.push(result)
 
         },
         // play() {
         //     console.log(this)
         //     // console.log(this.$eventBus.$emit)
         // }
+        // 删除音乐
+        deleteMusic(state, index) {
+            if (state.audioInfo.length > 1) {
+                state.audioInfo.splice(index, 1)
+            }
+
+        }
     },
     actions: {
         async getMusic(content, musicMes) {

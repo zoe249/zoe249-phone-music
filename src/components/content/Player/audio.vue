@@ -163,7 +163,7 @@ export default {
     // 音频播放完毕
     ended(){
       this.$emit('audioEnded')
-    }
+    },
   },
 };
 </script>
