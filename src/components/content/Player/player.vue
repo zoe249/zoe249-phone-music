@@ -177,6 +177,7 @@ export default {
       currentW:0, // 当前进度条宽度
       // w:0;
       currentX:0,
+      
     };
   },
   computed: {
