@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export function requestGet(config) {
     const instanceget = axios.create({
-        baseURL: "https://autumnfish.cn/"
+        baseURL: "http://localhost:3000"
     })
 
     instanceget.interceptors.request.use(config => {

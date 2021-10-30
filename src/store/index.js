@@ -4,8 +4,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { getMusicUrl, getMusiclyric, getMusicDateil } from '../network/Get/Play'
+// 视频
+import { videoDetail, videoUrl } from '../network/Get/Video'
 export default new Vuex.Store({
     state: {
+        // 登录部分
         loginState: {
             loging: false,
             // 保存用户id
@@ -19,6 +22,7 @@ export default new Vuex.Store({
             // 用户昵称
             Nickname: null
         },
+        // 音频部分
         audioInfo: [{
             id: 1330348068,
             url: 'https://music.163.com/song/media/outer/url?id=1330348068.mp3',
@@ -27,7 +31,9 @@ export default new Vuex.Store({
             theme: '#f56c6c',
             name: '起风了',
             artist: '买辣椒也用券',
-        }, ]
+        }, ],
+        // 视频部分
+        videoInfo: []
     },
     getters: {
         // 是否登录
@@ -100,9 +106,15 @@ export default new Vuex.Store({
                 state.audioInfo.splice(index, 1)
             }
 
+        },
+
+        addVideo(state, result) {
+            state.videoInfo = result
+            console.log(state.videoInfo)
         }
     },
     actions: {
+        // 音乐部分
         async getMusic(content, musicMes) {
             let id = musicMes.id
             let result = {}
@@ -133,6 +145,11 @@ export default new Vuex.Store({
                 // content.commit('play')
             return result
                 // }, 500)
+        },
+
+        // 视频部分
+        getVideo(content, videoMes) {
+
         }
     },
     modules: {}

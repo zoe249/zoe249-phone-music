@@ -49,7 +49,13 @@
             <!-- 进度条 -->
             <div class="view-bar" @mousedown="currentMouse" ref="viewbar">
               <div class="bar-current" ref="current"></div>
-              <div class="view-mouse"></div>
+              <div
+                ref="mouse"
+                class="view-mouse"
+                @touchstart="touchstart"
+                @touchmove="touchmove"
+                @touchend="touchend"
+              ></div>
             </div>
             <div class="view-duration">{{ duration }}</div>
           </div>
@@ -116,7 +122,7 @@
             class="playing-item"
             v-for="(item, index) in audioInfo"
             :key="index"
-            @click="listClick(item,index)"
+            @click="listClick(item, index)"
           >
             <div class="item-name">
               <div>{{ item.name }}</div>
@@ -156,33 +162,38 @@ export default {
       // 当前音乐播放百分比\
       percent: "",
       // 当前进度条宽度百分比
-      percentX: "",
+      percentX: "1",
       // 滑动距离
       vMouseX: "",
 
       // 显示播放列表
       playinglist: false,
       // 音乐数据
-      audioInfoP:{},
+      audioInfoP: {},
       // 播放位置
-      playIndex:null
+      playIndex: null,
+      startX:'', // 按下
+      moveX:0,  // 滑动
+      currentW:0, // 当前进度条宽度
+      // w:0;
+      currentX:0,
     };
   },
   computed: {
     ...mapState(["audioInfo"]),
-    ...mapGetters(['saveInfo'])
+    ...mapGetters(["saveInfo"]),
   },
-  watch:{
-    audioInfo(){
-      this.addAdudio()
+  watch: {
+    audioInfo() {
+      this.addAdudio();
     },
-    saveInfo(){
-      this.Bsrefresh()
-    }
+    saveInfo() {
+      this.Bsrefresh();
+    },
   },
-  mounted () {
-    this.addAdudio()
-    this.playIndex = 0
+  mounted() {
+    this.addAdudio();
+    this.playIndex = 0;
   },
   methods: {
     // 旋转动画
@@ -190,8 +201,8 @@ export default {
       this.playanimation = true;
     },
     // 获取音乐数据
-    addAdudio(){
-      this.audioInfoP = this.audioInfo[0]
+    addAdudio() {
+      this.audioInfoP = this.audioInfo[0];
     },
     // 隐藏播放页面
     playerBigF() {
@@ -211,7 +222,7 @@ export default {
     },
     // 播放
     play() {
-      this.$refs.scroll.refresh()
+      this.$refs.scroll.refresh();
       this.playing = false;
       this.$refs.audioPlay.play();
       this.duration = this.$refs.audioPlay.duration();
@@ -229,12 +240,14 @@ export default {
     // 播放结束
     audioEnded() {
       // this.playanimation = false;
-      this.playNext()
+      this.playNext();
     },
     // 当前播放时间
     timeupdate(currentTime, Tpercent) {
+      let barW = document.querySelector(".view-bar").offsetWidth;
       this.currentTime = currentTime;
       this.$refs.current.style.width = Tpercent + "%";
+      this.$refs.mouse.style.left = parseInt(barW* Tpercent/100)+'px';
       // let current = document.querySelector('.bar-current')
       // console.log(this.$refs.current.style.width)
       // console.log(this.$refs.viewbar.style.width)
@@ -243,6 +256,7 @@ export default {
     currentMouse() {
       // 当前宽度
       // console.log(event)
+      // this.w = this.$refs.mouse.offsetWidth;
       this.barLeft =
         event.clientX - this.$refs.current.getBoundingClientRect().left;
       // console.log(this.barLeft)
@@ -254,6 +268,7 @@ export default {
       this.percentX = (currentX / barW) * 100;
       // console.log(parseInt(this.percentX))
       // 改变当前current当前进度的宽度
+      this.$refs.mouse.style.left = currentX +'px';  // 设置圆点控制按钮的位置
       this.$refs.current.style.width = this.percentX + "%";
       this.$refs.audioPlay.timeCurrent(this.percent);
     },
@@ -271,35 +286,33 @@ export default {
       this.playinglist = true;
     },
     // 点击切换播放音乐
-    listClick(item,index){
-      this.audioInfoP = item
-      this.playIndex = index
-      setTimeout(()=>{
-        this.play()
-      },500)
-      
+    listClick(item, index) {
+      this.audioInfoP = item;
+      this.playIndex = index;
+      setTimeout(() => {
+        this.play();
+      }, 500);
     },
     // 上一首
-    playFrom(){
-      if(this.playIndex !==0){
-        this.playIndex--
-        this.audioInfoP = this.audioInfo[this.playIndex]
-        setTimeout(()=>{
-          this.play()
-        },500)
+    playFrom() {
+      if (this.playIndex !== 0) {
+        this.playIndex--;
+        this.audioInfoP = this.audioInfo[this.playIndex];
+        setTimeout(() => {
+          this.play();
+        }, 500);
       }
     },
     // 下一首
-    playNext(){
-      
-      if(this.playIndex !== this.audioInfo.length-1){
-        this.playIndex++
-        this.audioInfoP = this.audioInfo[this.playIndex]
-        setTimeout(()=>{
-          this.play()
-        },500)
-      }else if(this.playIndex === this.audioInfo.length-1){
-        this.pause()
+    playNext() {
+      if (this.playIndex !== this.audioInfo.length - 1) {
+        this.playIndex++;
+        this.audioInfoP = this.audioInfo[this.playIndex];
+        setTimeout(() => {
+          this.play();
+        }, 500);
+      } else if (this.playIndex === this.audioInfo.length - 1) {
+        this.pause();
       }
     },
     // 隐藏播放列表
@@ -307,37 +320,40 @@ export default {
       this.playinglist = false;
     },
     // 刷新高度
-    Bsrefresh(){
-      this.$refs.scroll.refresh()
+    Bsrefresh() {
+      this.$refs.scroll.refresh();
     },
     // 删除音乐
-    deleteItem(index){
-      this.$store.commit('deleteMusic',index)
+    deleteItem(index) {
+      this.$store.commit("deleteMusic", index);
     },
-
-
-    // 注释:左右滑动会与手机端的左右滑动返回功能冲突，不采用
-    // @touchstart.stop="btnDown" @touchmove.stop="btnMove" @touchend.stop="btnUp"
-    btnDown() {
-      // console.log(event.targetTouches[0].clientX)
+    // 按下
+    touchstart() {
+      this.currentW = this.$refs.current.offsetWidth;
+      if (event.targetTouches[0].pageX) {
+        this.startX = event.targetTouches[0].pageX;
+        // console.log(parseInt(this.percentX))
+      };
+      
     },
-    btnMove() {
-      // 获取滑动的位置
-      this.vMouseX = event.targetTouches[0].clientX;
-      // 滑动结束占bar组件的宽度百分比
+    touchmove() {
       let barW = document.querySelector(".view-bar").offsetWidth;
-      let mouseW =
-        this.vMouseX - this.$refs.current.getBoundingClientRect().left;
-      // 计算百分比
-      this.percent = mouseW / barW;
-      this.percentX = parseInt((mouseW / barW) * 100);
-      // 改变viewcurent宽度
-      this.$refs.current.style.width = this.percentX + "%";
+      this.barLeft =  event.targetTouches[0].pageX - this.$refs.current.getBoundingClientRect().left;
+      if(this.barLeft<=0){
+        this.barLeft =0;
+      }else if(this.barLeft >= this.$refs.viewbar.offsetWidth){
+        this.barLeft = this.$refs.viewbar.offsetWidth
+      }
+      this.currentX = parseInt(this.barLeft);
+      this.percent = this.currentX / barW;
+      this.$refs.mouse.style.left = this.currentX +'px';
+      this.$refs.current.style.width = this.currentX + "px";
     },
-    btnUp() {
-      this.$refs.audioPlay.timeCurrent(this.percent);
-      // console.log(this.percentX)
-      // console.log(mousePer)
+    touchend() {
+      this.$refs.mouse.style.left = this.currentX +'px';
+      this.$refs.current.style.width = this.currentX + "px";
+      // this.$refs.current.style.width = this.percentX + "%"; // 百分比宽度赋值给已播放进度条
+      this.$refs.audioPlay.timeCurrent(this.percent); // 播放歌曲
     },
   },
   components: {
@@ -492,6 +508,7 @@ export default {
   color: #fff;
 }
 .player-view .view-bar {
+  position: relative;
   width: 65vw;
   height: 1px;
   background-color: #ccc;
@@ -501,12 +518,14 @@ export default {
 
 // 当前进度条
 .view-bar .bar-current {
+  position: absolute;
   height: 1px;
   width: 0px;
   background-color: #fbcc74;
 }
 // 拖动按钮
 .view-bar .view-mouse {
+  position: absolute;
   height: 0.5em;
   width: 0.5em;
   background-color: #fbcc74;

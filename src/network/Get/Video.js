@@ -22,3 +22,23 @@ export function videoGroupId(id, offset, cookie) {
         }
     })
 }
+
+// 获取视频详细内容
+export function videoDetail(id) {
+    return requestPost({
+        url: "/video/detail",
+        data: {
+            id: id
+        }
+    })
+}
+
+// 获取视频播放url
+export function videoUrl(id) {
+    return requestPost({
+        url: "/video/url",
+        data: {
+            id: id
+        }
+    })
+}

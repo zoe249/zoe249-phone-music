@@ -11,7 +11,10 @@
     <b-scroll class="video-scroll" ref="scrolly"> 
       <!-- 视频 -->
       <div class="video-list">
-        <div class="video-item" v-for="(item, index) in videoList" :key="index">
+        <div class="video-item" 
+        v-for="(item, index) in videoList" 
+        :key="index"
+        @click="videoId(item)">
           <div class="video-item-pic">
             <img v-lazy="item.data.previewUrl" alt="" />
           </div>
@@ -19,6 +22,9 @@
         </div>
       </div>
     </b-scroll>
+
+    <!-- 视频播放组件 -->
+    <video-play v-show="vPlayShow"/>
   </div>
 </template>
 
@@ -28,6 +34,7 @@ import MainTop from "@/components/content/MainTop/MainTop.vue";
 import BScrollx from "@/components/comment/better-scroll/BetterScroolX.vue";
 import BScroll from "@/components/comment/better-scroll/BetterScroll.vue";
 import VideoGroup from "./children/VideoGroup.vue";
+import VideoPlay from '@/components/content/Video/video.vue'
 export default {
   data() {
     return {
@@ -38,6 +45,8 @@ export default {
       offset: 0,
       // 视频列表
       videoList: [],
+      // 是否显示播放组件
+      vPlayShow:false
     };
   },
   created() {
@@ -72,12 +81,21 @@ export default {
       console.log(id);
       this.videoGroupId(id, this.offset, this.saveCookie());
     },
+    // shiping id 
+    videoId(id){
+      // console.log(this.videoList)
+      this.$store.commit('addVideo',this.videoList)
+      this.vPlayShow = true
+      // console.log(this.$refs.scroll.stop())
+    }
   },
   components: {
     MainTop,
     BScroll,
     BScrollx,
     VideoGroup,
+    // 视频播放组件
+    VideoPlay
   },
 };
 </script>
